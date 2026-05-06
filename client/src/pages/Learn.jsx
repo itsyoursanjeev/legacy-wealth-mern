@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CheckCircle, Circle, ChevronDown, ChevronRight, ArrowLeft, ArrowRight, FileText, Video, File, ExternalLink, Lock, Clock } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 
@@ -182,8 +183,13 @@ const Learn = () => {
         </div>
         <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
           <span className="text-cream/50 text-xs">{progress}% complete</span>
-          <div className="w-28 h-1.5 bg-navy-700 rounded-full">
-            <div className="h-1.5 bg-gold rounded-full transition-all duration-500" style={{ width: `${progress}%` }}/>
+          <div className="w-28 h-1.5 bg-navy-700 rounded-full overflow-hidden">
+            <motion.div
+              className="h-1.5 bg-gold rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            />
           </div>
         </div>
       </div>
@@ -249,17 +255,30 @@ const Learn = () => {
 
         {/* Main content */}
         <main className="flex-1 overflow-y-auto">
+          <AnimatePresence mode="wait">
           {!activeLesson ? (
-            <div className="flex flex-col items-center justify-center h-full text-center p-8">
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex flex-col items-center justify-center h-full text-center p-8"
+            >
               <Video size={40} className="text-gold/40 mb-4"/>
               <p className="text-cream/40">
                 {allLessons.length === 0
                   ? 'No lessons have been added to this course yet.'
                   : 'Select a lesson from the sidebar to begin.'}
               </p>
-            </div>
+            </motion.div>
           ) : (
-            <div className="max-w-4xl mx-auto px-4 py-6">
+            <motion.div
+              key={activeLesson._id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-4xl mx-auto px-4 py-6"
+            >
 
               {/* Video */}
               {activeLesson.type === 'video' && embedUrl && (
@@ -400,8 +419,9 @@ const Learn = () => {
                   Next <ArrowRight size={14}/>
                 </button>
               </div>
-            </div>
+            </motion.div>
           )}
+          </AnimatePresence>
         </main>
       </div>
     </div>

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Calendar, TrendingUp, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { fadeUp, fadeLeft, stagger } from '../utils/motion';
 
 const statusConfig = {
   active:   { label: 'Active',            cls: 'bg-green-100 text-green-800',  icon: <CheckCircle size={12}/> },
@@ -36,53 +38,89 @@ const Dashboard = () => {
 
   return (
     <div className="bg-cream min-h-screen">
-      <section className="bg-navy-900 text-cream py-12">
+      <section className="bg-navy-900 text-cream py-12 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Your Dashboard</div>
-          <h1 className="font-display text-3xl md:text-4xl">
-            Welcome back, <span className="italic text-gold">{user?.name?.split(' ')[0]}</span>
-          </h1>
+          <motion.div variants={fadeLeft} initial="hidden" animate="show">
+            <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Your Dashboard</div>
+            <h1 className="font-display text-3xl md:text-4xl">
+              Welcome back, <span className="italic text-gold">{user?.name?.split(' ')[0]}</span>
+            </h1>
+          </motion.div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Stats */}
-        <div className="grid sm:grid-cols-3 gap-4 mb-10">
+        <motion.div
+          className="grid sm:grid-cols-3 gap-4 mb-10"
+          variants={stagger} initial="hidden" animate="show"
+        >
           <StatCard icon={<BookOpen/>} label="Active Programs"  value={active.length} />
           <StatCard icon={<Clock/>}    label="Pending Approval" value={pending.length} />
           <StatCard icon={<TrendingUp/>} label="Total Invested" value={`₹${totalInvested.toLocaleString('en-IN')}`} />
-        </div>
+        </motion.div>
 
         {/* Pending notice */}
-        {pending.length > 0 && (
-          <div className="flex items-start gap-3 bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
-            <AlertCircle className="text-yellow-600 flex-shrink-0 mt-0.5" size={18}/>
-            <div>
-              <p className="text-sm font-medium text-yellow-800">
-                {pending.length} enrollment{pending.length > 1 ? 's' : ''} awaiting admin approval
-              </p>
-              <p className="text-xs text-yellow-700 mt-0.5">
-                Make your offline payment and contact us — we'll activate your access within 24 hours.
-              </p>
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {pending.length > 0 && (
+            <motion.div
+              variants={fadeUp} initial="hidden" animate="show"
+              exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+              className="flex items-start gap-3 bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 overflow-hidden"
+            >
+              <AlertCircle className="text-yellow-600 flex-shrink-0 mt-0.5" size={18}/>
+              <div>
+                <p className="text-sm font-medium text-yellow-800">
+                  {pending.length} enrollment{pending.length > 1 ? 's' : ''} awaiting admin approval
+                </p>
+                <p className="text-xs text-yellow-700 mt-0.5">
+                  Make your offline payment and contact us — we'll activate your access within 24 hours.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <h2 className="font-display text-2xl text-navy mb-5">My Programs</h2>
+        <motion.h2
+          className="font-display text-2xl text-navy mb-5"
+          variants={fadeUp} initial="hidden" animate="show"
+        >
+          My Programs
+        </motion.h2>
 
         {loading ? (
-          <div className="text-center py-12 text-navy">Loading…</div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="card p-6 animate-pulse">
+                <div className="flex justify-between mb-3">
+                  <div className="h-5 w-24 bg-navy-100 rounded-full" />
+                  <div className="h-5 w-28 bg-navy-100 rounded-full" />
+                </div>
+                <div className="h-6 w-3/4 bg-navy-100 rounded mb-4" />
+                <div className="h-2 w-full bg-navy-100 rounded-full mb-1" />
+                <div className="h-3 w-10 bg-navy-100 rounded mt-1 ml-auto mb-5" />
+                <div className="h-9 w-full bg-navy-100 rounded-lg" />
+              </div>
+            ))}
+          </div>
         ) : enrollments.length === 0 ? (
-          <div className="card p-10 text-center">
+          <motion.div variants={fadeUp} initial="hidden" animate="show" className="card p-10 text-center">
             <BookOpen className="text-gold mx-auto mb-3" size={40}/>
             <h3 className="font-display text-xl text-navy mb-2">No programs yet</h3>
             <p className="text-ink/60 mb-5">Browse our programs and start your learning journey.</p>
             <Link to="/courses" className="btn-gold">Explore Programs</Link>
-          </div>
+          </motion.div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-5">
-            {enrollments.map(e => <EnrollmentCard key={e._id} enrollment={e}/>)}
-          </div>
+          <motion.div
+            className="grid md:grid-cols-2 gap-5"
+            variants={stagger} initial="hidden" animate="show"
+          >
+            {enrollments.map(e => (
+              <motion.div key={e._id} variants={fadeUp}>
+                <EnrollmentCard enrollment={e}/>
+              </motion.div>
+            ))}
+          </motion.div>
         )}
       </div>
     </div>
@@ -90,13 +128,17 @@ const Dashboard = () => {
 };
 
 const StatCard = ({ icon, label, value }) => (
-  <div className="card p-5 flex items-center gap-4">
+  <motion.div
+    variants={fadeUp}
+    whileHover={{ y: -3, transition: { duration: 0.2 } }}
+    className="card p-5 flex items-center gap-4 cursor-default"
+  >
     <div className="w-12 h-12 bg-navy text-gold rounded-lg flex items-center justify-center">{icon}</div>
     <div>
       <div className="text-xs uppercase tracking-widest text-ink/60">{label}</div>
       <div className="font-display text-2xl text-navy">{value}</div>
     </div>
-  </div>
+  </motion.div>
 );
 
 const EnrollmentCard = ({ enrollment }) => {
@@ -108,7 +150,10 @@ const EnrollmentCard = ({ enrollment }) => {
   const isActive = enrollment.enrollmentStatus === 'active';
 
   return (
-    <div className={`card p-6 ${!isActive ? 'opacity-90' : ''}`}>
+    <motion.div
+      whileHover={{ y: -2, transition: { duration: 0.18 } }}
+      className={`card p-6 ${!isActive ? 'opacity-90' : ''}`}
+    >
       <div className="flex justify-between items-start mb-3 flex-wrap gap-2">
         <span className="badge bg-navy-50 text-navy">{course.category}</span>
         <div className="flex gap-2">
@@ -126,10 +171,12 @@ const EnrollmentCard = ({ enrollment }) => {
               <span>Progress</span>
               <span>{enrollment.progressPercent}%</span>
             </div>
-            <div className="w-full bg-navy-100 rounded-full h-2">
-              <div
-                className="bg-gold h-2 rounded-full transition-all duration-500"
-                style={{ width: `${enrollment.progressPercent}%` }}
+            <div className="w-full bg-navy-100 rounded-full h-2 overflow-hidden">
+              <motion.div
+                className="bg-gold h-2 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${enrollment.progressPercent}%` }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
               />
             </div>
           </div>
@@ -153,7 +200,7 @@ const EnrollmentCard = ({ enrollment }) => {
         </span>
         <span>₹{enrollment.amountPaid.toLocaleString('en-IN')}</span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
