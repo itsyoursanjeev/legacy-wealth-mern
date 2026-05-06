@@ -43,8 +43,8 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center font-display font-bold text-navy-900 text-xl shadow-gold-glow group-hover:scale-105 transition-transform">
-              L
+            <div className="relative w-12 h-10 bg-gradient-gold rounded-lg flex items-center justify-center shadow-gold-glow group-hover:scale-105 transition-transform">
+              <span className="font-display font-black text-navy-900 text-base tracking-tight leading-none">LW</span>
               <span className="absolute -inset-1 rounded-lg ring-1 ring-gold/40 group-hover:ring-gold transition-colors" aria-hidden />
             </div>
             <div className="hidden sm:block">
