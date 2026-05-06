@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
+import LeadCapturePopup from './components/LeadCapturePopup';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -40,6 +41,7 @@ function App() {
 function StandardLayout() {
   return (
     <div className="min-h-screen flex flex-col">
+      <LeadCapturePopup />
       <Navbar />
       <main className="flex-1">
         <Routes>

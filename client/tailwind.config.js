@@ -63,9 +63,15 @@ export default {
         'shimmer': 'shimmer 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'ticker': 'ticker 40s linear infinite',
-        'pulse-soft': 'pulseSoft 3s ease-in-out infinite'
+        'pulse-soft': 'pulseSoft 3s ease-in-out infinite',
+        'pop-in': 'popIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both',
+        'overlay-in': 'fadeIn 0.3s ease-out both'
       },
       keyframes: {
+        popIn: {
+          '0%':   { opacity: '0', transform: 'scale(0.93) translateY(16px)' },
+          '100%': { opacity: '1', transform: 'scale(1)   translateY(0)' }
+        },
         fadeUp: {
           '0%': { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' }
