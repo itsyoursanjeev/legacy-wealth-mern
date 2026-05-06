@@ -111,6 +111,14 @@ router.post('/lessons', asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, lesson });
 }));
 
+// PUT /api/admin/lessons/reorder  — bulk update order field (MUST be before /lessons/:id)
+router.put('/lessons/reorder', asyncHandler(async (req, res) => {
+  const { lessonIds } = req.body;
+  if (!Array.isArray(lessonIds)) { res.status(400); throw new Error('lessonIds must be an array'); }
+  await Promise.all(lessonIds.map((id, idx) => Lesson.findByIdAndUpdate(id, { order: idx })));
+  res.json({ success: true });
+}));
+
 // PUT /api/admin/lessons/:id
 router.put('/lessons/:id', asyncHandler(async (req, res) => {
   const lesson = await Lesson.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
