@@ -9,7 +9,7 @@ const POPUP_COOLDOWN_MS  = 24 * 60 * 60 * 1000; // 24 hours
 const TIMER_DELAY_MS     = 10_000;               // 10 seconds
 const SCROLL_THRESHOLD   = 40;                   // 40% page scroll
 const STORAGE_KEY        = 'lw_popup_ts';
-const BROCHURE_URL       = '';   // paste your Google Drive / Dropbox PDF share link here
+const BROCHURE_URL       = 'https://drive.google.com/file/d/1YdmNGU5RIdAIueyszYLN5Yd2SOHcBkMS/view?usp=sharing';
 
 // Pages where popup must NOT appear
 const EXCLUDED_PATHS = ['/login', '/signup', '/dashboard'];
