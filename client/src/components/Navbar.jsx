@@ -4,6 +4,7 @@ import { Menu, X, LogOut, Shield, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { slideDown } from '../utils/motion';
+import LogoMark from './LogoMark';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -43,9 +44,8 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative w-12 h-10 bg-white rounded-lg overflow-hidden shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
-              <img src="/logo.png" alt="Legacy Wealth Institute" className="w-full h-full object-contain p-0.5" />
-              <span className="absolute -inset-1 rounded-lg ring-1 ring-gold/40 group-hover:ring-gold transition-colors pointer-events-none" aria-hidden />
+            <div className="relative group-hover:scale-105 transition-transform flex-shrink-0">
+              <LogoMark id="nav" className="w-12 h-10" />
             </div>
             <div className="hidden sm:block">
               <div className="font-display text-cream text-lg leading-none">Legacy Wealth</div>

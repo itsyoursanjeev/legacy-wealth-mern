@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Instagram, Youtube, Linkedin, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fadeUp, stagger } from '../utils/motion';
+import LogoMark from './LogoMark';
 
 const VP = { once: true, margin: '-60px' };
 
@@ -53,9 +54,7 @@ const Footer = () => (
         {/* Brand */}
         <motion.div variants={fadeUp} className="md:col-span-5">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-12 h-10 bg-white rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
-              <img src="/logo.png" alt="Legacy Wealth Institute" className="w-full h-full object-contain p-0.5" />
-            </div>
+            <LogoMark id="footer" className="w-12 h-10 flex-shrink-0" />
             <div>
               <div className="font-display text-cream text-lg leading-none">Legacy Wealth Institute</div>
               <div className="text-gold text-[10px] tracking-super-wide uppercase mt-1">Trade with logic. Invest with patience.</div>
