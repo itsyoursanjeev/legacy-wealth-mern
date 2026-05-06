@@ -54,7 +54,7 @@ const Footer = () => (
         {/* Brand */}
         <motion.div variants={fadeUp} className="md:col-span-5">
           <div className="flex items-center gap-3 mb-5">
-            <LogoMark id="footer" className="w-12 h-10 flex-shrink-0" />
+            <LogoMark className="w-12 h-10" />
             <div>
               <div className="font-display text-cream text-lg leading-none">Legacy Wealth Institute</div>
               <div className="text-gold text-[10px] tracking-super-wide uppercase mt-1">Trade with logic. Invest with patience.</div>

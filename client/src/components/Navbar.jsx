@@ -44,9 +44,7 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative group-hover:scale-105 transition-transform flex-shrink-0">
-              <LogoMark id="nav" className="w-12 h-10" />
-            </div>
+            <LogoMark className="w-12 h-10 group-hover:scale-105 transition-transform shadow-gold-glow" />
             <div className="hidden sm:block">
               <div className="font-display text-cream text-lg leading-none">Legacy Wealth</div>
               <div className="text-gold text-[10px] tracking-super-wide uppercase mt-0.5">Institute</div>
