@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Instagram, Send, MessageSquare, Clock, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
+import { fadeUp, fadeLeft, fadeRight, stagger } from '../utils/motion';
 import api from '../api/axios';
+
+const VP = { once: true, margin: '-80px' };
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -30,7 +34,10 @@ const Contact = () => {
         <div className="absolute inset-0 bg-grid opacity-40 mask-fade-b" aria-hidden />
         <div className="absolute top-20 -right-32 w-96 h-96 bg-gold/20 rounded-full blur-3xl" aria-hidden />
         <div className="relative container-page py-20 md:py-28">
-          <div className="max-w-3xl">
+          <motion.div
+            className="max-w-3xl"
+            variants={fadeLeft} initial="hidden" animate="show"
+          >
             <div className="badge-gold mb-6">Get in touch</div>
             <h1 className="h-display text-balance mb-6">
               Talk to us before you <span className="italic text-gold">enroll</span>.
@@ -38,7 +45,7 @@ const Contact = () => {
             <p className="text-cream/75 text-lg leading-relaxed text-pretty max-w-2xl">
               We'd rather have a real 30-minute conversation than push you into the wrong program. Send us a note and we'll respond within 24 hours — usually faster.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -47,7 +54,10 @@ const Contact = () => {
         <div className="container-page grid lg:grid-cols-12 gap-10">
 
           {/* Form */}
-          <div className="lg:col-span-7">
+          <motion.div
+            className="lg:col-span-7"
+            variants={fadeLeft} initial="hidden" whileInView="show" viewport={VP}
+          >
             <div className="bg-white rounded-2xl border border-navy-100 shadow-sm p-8 md:p-10">
               <div className="mb-8">
                 <div className="eyebrow mb-2">Send us a message</div>
@@ -113,48 +123,68 @@ const Contact = () => {
                   />
                 </Field>
 
-                <button type="submit" disabled={submitting} className="btn-gold w-full sm:w-auto">
+                <motion.button
+                  type="submit"
+                  disabled={submitting}
+                  className="btn-gold w-full sm:w-auto"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
                   {submitting ? 'Sending…' : <>Send message <Send size={16} /></>}
-                </button>
+                </motion.button>
                 <p className="text-xs text-ink/50">
                   By submitting you agree to receive educational communication. Markets carry risk.
                 </p>
               </form>
             </div>
-          </div>
+          </motion.div>
 
           {/* Side info */}
-          <aside className="lg:col-span-5 space-y-6">
-            <InfoCard icon={<Mail />} title="Email">
-              <a href="mailto:hello@legacywealth.in" className="text-navy hover:text-gold-dark transition-colors font-medium">
-                hello@legacywealth.in
-              </a>
-              <p className="text-sm text-ink/60 mt-1">For applications and inquiries</p>
-            </InfoCard>
+          <motion.aside
+            className="lg:col-span-5 space-y-6"
+            variants={stagger} initial="hidden" whileInView="show" viewport={VP}
+          >
+            <motion.div variants={fadeRight}>
+              <InfoCard icon={<Mail />} title="Email">
+                <a href="mailto:hello@legacywealth.in" className="text-navy hover:text-gold-dark transition-colors font-medium">
+                  hello@legacywealth.in
+                </a>
+                <p className="text-sm text-ink/60 mt-1">For applications and inquiries</p>
+              </InfoCard>
+            </motion.div>
 
-            <InfoCard icon={<Phone />} title="Phone">
-              <span className="text-navy font-medium">+91 98XXX XXXXX</span>
-              <p className="text-sm text-ink/60 mt-1">Mon–Fri, 10 AM – 7 PM IST</p>
-            </InfoCard>
+            <motion.div variants={fadeRight}>
+              <InfoCard icon={<Phone />} title="Phone">
+                <span className="text-navy font-medium">+91 98XXX XXXXX</span>
+                <p className="text-sm text-ink/60 mt-1">Mon–Fri, 10 AM – 7 PM IST</p>
+              </InfoCard>
+            </motion.div>
 
-            <InfoCard icon={<Instagram />} title="DM 'LEGACY' on Instagram">
-              <a
-                href="https://instagram.com/legacywealth.institute"
-                target="_blank"
-                rel="noreferrer"
-                className="text-navy hover:text-gold-dark transition-colors font-medium inline-flex items-center gap-1"
-              >
-                @legacywealth.institute <ArrowRight size={14} />
-              </a>
-              <p className="text-sm text-ink/60 mt-1">Fastest path for cohort applications</p>
-            </InfoCard>
+            <motion.div variants={fadeRight}>
+              <InfoCard icon={<Instagram />} title="DM 'LEGACY' on Instagram">
+                <a
+                  href="https://instagram.com/legacywealth.institute"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-navy hover:text-gold-dark transition-colors font-medium inline-flex items-center gap-1"
+                >
+                  @legacywealth.institute <ArrowRight size={14} />
+                </a>
+                <p className="text-sm text-ink/60 mt-1">Fastest path for cohort applications</p>
+              </InfoCard>
+            </motion.div>
 
-            <InfoCard icon={<MapPin />} title="Studio">
-              <span className="text-navy font-medium">Mumbai, Maharashtra</span>
-              <p className="text-sm text-ink/60 mt-1">By appointment only</p>
-            </InfoCard>
+            <motion.div variants={fadeRight}>
+              <InfoCard icon={<MapPin />} title="Studio">
+                <span className="text-navy font-medium">Mumbai, Maharashtra</span>
+                <p className="text-sm text-ink/60 mt-1">By appointment only</p>
+              </InfoCard>
+            </motion.div>
 
-            <div className="bg-navy text-cream rounded-2xl p-6 relative overflow-hidden">
+            <motion.div
+              variants={fadeUp}
+              className="bg-navy text-cream rounded-2xl p-6 relative overflow-hidden"
+            >
               <div className="absolute inset-0 bg-gradient-radial-gold opacity-30" aria-hidden />
               <div className="relative">
                 <Clock className="text-gold mb-3" />
@@ -163,19 +193,29 @@ const Contact = () => {
                   We respond to every application personally within 24 hours, often within a few. If you don't hear from us, check your spam folder — or DM us directly.
                 </p>
               </div>
-            </div>
-          </aside>
+            </motion.div>
+          </motion.aside>
         </div>
       </section>
 
       {/* FAQ teaser */}
       <section className="bg-white py-16">
-        <div className="container-page text-center max-w-2xl">
+        <motion.div
+          className="container-page text-center max-w-2xl"
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
+        >
           <MessageSquare className="text-gold mx-auto mb-4" />
           <h2 className="font-display text-2xl md:text-3xl text-navy mb-3">Have a quick question first?</h2>
           <p className="text-ink/70 mb-6">Most common questions are answered on the homepage FAQ. Have a look — and reach out if it's not covered.</p>
-          <a href="/#faq" className="btn-outline">Read the FAQ</a>
-        </div>
+          <motion.a
+            href="/#faq"
+            className="btn-outline"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Read the FAQ
+          </motion.a>
+        </motion.div>
       </section>
     </div>
   );
