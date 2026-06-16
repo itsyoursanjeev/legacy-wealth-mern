@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, TrendingUp, Shield, Award, ChevronRight,
@@ -81,6 +81,85 @@ const FAQS = [
   { q: 'Is there a refund policy?', a: "Yes — a 7-day no-questions-asked refund from your enrollment date. After that, we're committed and so are you." },
   { q: 'Is this investment advice?', a: "No. We provide educational content only — not personalised investment or trading advice. Every framework we teach is meant to help you build your own independent judgment, not replace it." }
 ];
+
+const TICKER_TAPE_CONFIG = {
+  symbols: [
+    { proName: 'NSE:NIFTY', title: 'NIFTY 50' },
+    { proName: 'BSE:SENSEX', title: 'SENSEX' },
+    { proName: 'NSE:BANKNIFTY', title: 'BANK NIFTY' },
+    { proName: 'FX_IDC:USDINR', title: 'USD/INR' },
+    { proName: 'MCX:GOLD1!', title: 'GOLD' },
+    { proName: 'MCX:CRUDEOIL1!', title: 'CRUDE OIL' }
+  ],
+  showSymbolLogo: true,
+  isTransparent: false,
+  displayMode: 'adaptive',
+  colorTheme: 'dark',
+  locale: 'en'
+};
+
+const MARKET_OVERVIEW_CONFIG = {
+  colorTheme: 'light',
+  dateRange: '12M',
+  showChart: true,
+  locale: 'en',
+  width: '100%',
+  height: '400',
+  tabs: [
+    {
+      title: 'Indices',
+      symbols: [
+        { s: 'NSE:NIFTY', d: 'NIFTY 50' },
+        { s: 'BSE:SENSEX', d: 'SENSEX' },
+        { s: 'NSE:BANKNIFTY', d: 'BANK NIFTY' }
+      ]
+    },
+    {
+      title: 'Forex & Commodities',
+      symbols: [
+        { s: 'FX_IDC:USDINR', d: 'USD/INR' },
+        { s: 'MCX:GOLD1!', d: 'Gold' },
+        { s: 'MCX:CRUDEOIL1!', d: 'Crude Oil' }
+      ]
+    }
+  ]
+};
+
+const ADVANCED_CHART_CONFIG = {
+  autosize: true,
+  symbol: 'NSE:NIFTY',
+  interval: 'D',
+  timezone: 'Asia/Kolkata',
+  theme: 'light',
+  style: '1',
+  locale: 'en',
+  hide_side_toolbar: false,
+  allow_symbol_change: true,
+  save_to_server: false
+};
+
+const SCREENER_CONFIG = {
+  width: '100%',
+  height: 240,
+  defaultColumn: 'overview',
+  defaultScreen: 'top_gainers',
+  market: 'india',
+  showToolbar: true,
+  colorTheme: 'light',
+  locale: 'en'
+};
+
+const TOP_STORIES_CONFIG = {
+  colorTheme: 'light',
+  isTransparent: false,
+  displayMode: 'regular',
+  width: '100%',
+  height: 240,
+  locale: 'en',
+  importanceFilter: '-1,0,1,2,3',
+  market: 'india',
+  currencyFilter: 'INR,USD'
+};
 
 const Home = () => {
   const [lead, setLead] = useState({ name: '', email: '', phone: '', interest: 'Mentorship' });
@@ -239,6 +318,77 @@ const Home = () => {
           </div>
         </div>
 
+      </section>
+
+      {/* ─────────────────────────── MARKETS ─────────────────────────── */}
+      <section className="bg-navy-900 text-cream py-4 relative overflow-hidden">
+        <TradingViewWidget
+          scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+          config={TICKER_TAPE_CONFIG}
+        />
+      </section>
+
+      <section className="section bg-cream relative">
+        <div className="container-page">
+          <motion.div
+            className="text-center mb-12 max-w-2xl mx-auto"
+            variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
+          >
+            <div className="eyebrow mb-3">Live Markets</div>
+            <h2 className="h-section text-balance">Markets at a glance.</h2>
+          </motion.div>
+
+          {/* Row 1 — Market Overview */}
+          <motion.div
+            className="card overflow-hidden mb-6"
+            variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
+          >
+            <TradingViewWidget
+              scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js"
+              config={MARKET_OVERVIEW_CONFIG}
+            />
+          </motion.div>
+
+          {/* Row 2 — Chart + Screener/News */}
+          <motion.div
+            className="grid md:grid-cols-2 gap-6"
+            variants={stagger} initial="hidden" whileInView="show" viewport={VP}
+          >
+            {/* Left: Advanced Chart */}
+            <motion.div variants={fadeUp} className="card overflow-hidden h-[500px]">
+              <TradingViewWidget
+                scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+                config={ADVANCED_CHART_CONFIG}
+              />
+            </motion.div>
+
+            {/* Right: Screener (top) + News (bottom) */}
+            <motion.div variants={fadeUp} className="flex flex-col gap-6">
+              <div>
+                <h3 className="font-display text-lg text-navy mb-3">Today's Top Performers</h3>
+                <div className="card overflow-hidden">
+                  <TradingViewWidget
+                    scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"
+                    config={SCREENER_CONFIG}
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-display text-lg text-navy mb-3">Market News</h3>
+                <div className="card overflow-hidden">
+                  <TradingViewWidget
+                    scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-events.js"
+                    config={TOP_STORIES_CONFIG}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          <p className="text-xs text-ink/50 text-center mt-8">
+            Market data provided by TradingView. For educational purposes only — not investment advice.
+          </p>
+        </div>
       </section>
 
       {/* ─────────────────────────── PHILOSOPHY ─────────────────────────── */}
@@ -604,6 +754,31 @@ const Home = () => {
 };
 
 /* ──────────────────────────── Sub-components ──────────────────────────── */
+
+const TradingViewWidget = ({ scriptSrc, config }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    containerRef.current.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.src = scriptSrc;
+    script.async = true;
+    script.innerHTML = JSON.stringify(config);
+    containerRef.current.appendChild(script);
+
+    return () => {
+      if (containerRef.current) containerRef.current.innerHTML = '';
+    };
+  }, []);
+
+  return (
+    <div className="tradingview-widget-container h-full" ref={containerRef}>
+      <div className="tradingview-widget-container__widget h-full" />
+    </div>
+  );
+};
 
 const Feature = ({ icon, title, text }) => (
   <motion.div
