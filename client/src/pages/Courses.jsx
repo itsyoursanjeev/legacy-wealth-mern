@@ -109,43 +109,56 @@ const Courses = () => (
 
 const ProgramCard = ({ program }) => {
   const Icon = ICONS[program.icon];
+  const dark = program.accent;
+
   return (
     <Link
       to={`/programs/${program.slug}`}
-      className={`card-premium group relative block overflow-hidden h-full ${
-        program.accent ? 'ring-1 ring-gold/40 shadow-gold-glow' : ''
+      className={`card-premium group relative block overflow-hidden min-h-[320px] ${
+        dark ? 'bg-navy-900 border-transparent ring-1 ring-gold/40 shadow-gold-glow' : ''
       }`}
     >
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-gold" />
 
-      {program.accent && (
+      {dark && (
+        <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" aria-hidden />
+      )}
+
+      {dark && (
         <div className="absolute -top-3 right-5 bg-gold text-navy-900 text-[10px] font-semibold tracking-super-wide uppercase px-3 py-1 rounded-full shadow-gold-glow">
           Most Popular
         </div>
       )}
 
-      <div className="p-7 flex flex-col h-full">
+      <div className="relative p-7 flex flex-col h-full">
         <div className="flex items-center justify-between mb-5 mt-1">
           <span className="badge-gold">{program.badge}</span>
-          <div className="bg-navy-900 text-gold rounded-xl p-3 flex items-center justify-center">
+          <div className={`rounded-xl p-4 flex items-center justify-center ${
+            dark ? 'bg-gold/20 border border-gold/30 text-gold' : 'bg-navy-900 text-gold'
+          }`}>
             <Icon size={20} />
           </div>
         </div>
 
-        <h3 className="font-display text-2xl text-navy mb-3">{program.title}</h3>
-        <p className="text-ink/65 text-sm leading-relaxed mb-5 flex-1">{program.desc}</p>
+        <h3 className={`font-display text-3xl mb-3 ${dark ? 'text-cream' : 'text-navy'}`}>{program.title}</h3>
+        <p className={`text-base leading-relaxed mb-5 flex-1 ${dark ? 'text-gold-light' : 'text-ink/65'}`}>{program.desc}</p>
 
         <div className="flex flex-wrap gap-2 mb-6">
           {program.stats.map(s => (
-            <span key={s} className="text-[10px] font-semibold tracking-wider uppercase bg-navy-50 text-navy border border-navy-200 px-3 py-1 rounded-full">
+            <span
+              key={s}
+              className={`text-[10px] font-semibold tracking-wider uppercase px-3 py-1 rounded-full border ${
+                dark ? 'bg-white/10 text-cream border-white/20' : 'bg-navy-50 text-navy border-navy-200'
+              }`}
+            >
               {s}
             </span>
           ))}
         </div>
 
-        <span className="inline-flex items-center gap-1.5 text-sm text-gold-dark font-semibold">
+        <span className={`inline-flex items-center gap-1.5 text-base font-semibold ${dark ? 'text-gold' : 'text-gold-dark'}`}>
           Explore Program
-          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1.5" />
+          <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1.5" />
         </span>
       </div>
     </Link>
