@@ -114,18 +114,18 @@ const ProgramCard = ({ program }) => {
   return (
     <Link
       to={`/programs/${program.slug}`}
-      className={`card-premium group relative block overflow-hidden min-h-[320px] ${
+      className={`card-premium group relative block min-h-[320px] ${
         dark ? 'bg-navy-900 border-transparent ring-1 ring-gold/40 shadow-gold-glow' : ''
       }`}
     >
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-gold" />
+      {/* Background decoration — clipped to the card's rounded corners */}
+      <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-gold" />
+        {dark && <div className="absolute inset-0 bg-noise opacity-10" />}
+      </div>
 
       {dark && (
-        <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" aria-hidden />
-      )}
-
-      {dark && (
-        <div className="absolute -top-3 right-5 bg-gold text-navy-900 text-[10px] font-semibold tracking-super-wide uppercase px-3 py-1 rounded-full shadow-gold-glow">
+        <div className="absolute -top-3 right-5 z-10 bg-gold text-navy-900 text-[10px] font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full shadow-gold-glow">
           Most Popular
         </div>
       )}
@@ -133,7 +133,7 @@ const ProgramCard = ({ program }) => {
       <div className="relative p-7 flex flex-col h-full">
         <div className="flex items-center justify-between mb-5 mt-1">
           <span className="badge-gold">{program.badge}</span>
-          <div className={`rounded-xl p-4 flex items-center justify-center ${
+          <div className={`rounded-xl p-4 flex items-center justify-center shadow-sm ${
             dark ? 'bg-gold/20 border border-gold/30 text-gold' : 'bg-navy-900 text-gold'
           }`}>
             <Icon size={20} />
