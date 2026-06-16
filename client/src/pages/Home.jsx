@@ -162,6 +162,16 @@ const TOP_STORIES_CONFIG = {
   locale: 'en'
 };
 
+const ECONOMIC_CALENDAR_CONFIG = {
+  colorTheme: 'light',
+  isTransparent: false,
+  width: '100%',
+  height: '400',
+  locale: 'en',
+  importanceFilter: '-1,0,1',
+  currencyFilter: 'INR,USD'
+};
+
 const Home = () => {
   const [lead, setLead] = useState({ name: '', email: '', phone: '', interest: 'Mentorship' });
   const [submitting, setSubmitting] = useState(false);
@@ -390,6 +400,20 @@ const Home = () => {
                 </div>
               </div>
             </motion.div>
+          </motion.div>
+
+          {/* Row 3 — Upcoming Market-Moving Events */}
+          <motion.div
+            className="mt-6"
+            variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
+          >
+            <h3 className="font-display text-lg text-navy mb-3">Upcoming Market-Moving Events</h3>
+            <div className="card overflow-hidden">
+              <TradingViewWidget
+                scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-events.js"
+                config={ECONOMIC_CALENDAR_CONFIG}
+              />
+            </div>
           </motion.div>
 
           <p className="text-xs text-ink/50 text-center mt-8">
