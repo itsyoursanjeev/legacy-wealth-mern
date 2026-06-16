@@ -92,9 +92,9 @@ const TICKER_TAPE_CONFIG = {
     { proName: 'MCX:CRUDEOIL1!', title: 'CRUDE OIL' }
   ],
   showSymbolLogo: true,
-  isTransparent: false,
+  isTransparent: true,
   displayMode: 'adaptive',
-  colorTheme: 'dark',
+  colorTheme: 'light',
   locale: 'en'
 };
 
@@ -134,6 +134,8 @@ const ADVANCED_CHART_CONFIG = {
   style: '1',
   locale: 'en',
   hide_side_toolbar: false,
+  hide_top_toolbar: false,
+  hide_legend: false,
   allow_symbol_change: true,
   save_to_server: false
 };
@@ -150,15 +152,14 @@ const SCREENER_CONFIG = {
 };
 
 const TOP_STORIES_CONFIG = {
-  colorTheme: 'light',
+  feedMode: 'market',
+  market: 'stock',
   isTransparent: false,
   displayMode: 'regular',
   width: '100%',
-  height: 240,
-  locale: 'en',
-  importanceFilter: '-1,0,1,2,3',
-  market: 'india',
-  currencyFilter: 'INR,USD'
+  height: 280,
+  colorTheme: 'light',
+  locale: 'en'
 };
 
 const Home = () => {
@@ -321,7 +322,7 @@ const Home = () => {
       </section>
 
       {/* ─────────────────────────── MARKETS ─────────────────────────── */}
-      <section className="bg-navy-900 text-cream py-4 relative overflow-hidden">
+      <section className="text-cream py-4 relative overflow-hidden">
         <TradingViewWidget
           scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
           config={TICKER_TAPE_CONFIG}
@@ -355,7 +356,7 @@ const Home = () => {
             variants={stagger} initial="hidden" whileInView="show" viewport={VP}
           >
             {/* Left: Advanced Chart */}
-            <motion.div variants={fadeUp} className="card overflow-hidden h-[500px]">
+            <motion.div variants={fadeUp} className="h-[400px] md:h-[560px] rounded-xl overflow-hidden border border-navy-100 bg-white">
               <TradingViewWidget
                 scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
                 config={ADVANCED_CHART_CONFIG}
@@ -366,7 +367,7 @@ const Home = () => {
             <motion.div variants={fadeUp} className="flex flex-col gap-6">
               <div>
                 <h3 className="font-display text-lg text-navy mb-3">Today's Top Performers</h3>
-                <div className="card overflow-hidden">
+                <div className="h-[300px] md:h-[260px] rounded-xl overflow-hidden border border-navy-100 bg-white">
                   <TradingViewWidget
                     scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"
                     config={SCREENER_CONFIG}
@@ -375,9 +376,9 @@ const Home = () => {
               </div>
               <div>
                 <h3 className="font-display text-lg text-navy mb-3">Market News</h3>
-                <div className="card overflow-hidden">
+                <div className="h-[300px] md:h-[280px] rounded-xl overflow-hidden border border-navy-100 bg-white">
                   <TradingViewWidget
-                    scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-events.js"
+                    scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js"
                     config={TOP_STORIES_CONFIG}
                   />
                 </div>
