@@ -52,20 +52,62 @@ const Courses = () => (
     <section className="relative bg-gradient-navy text-cream overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-40 mask-fade-b" aria-hidden />
       <div className="absolute top-20 -right-32 w-96 h-96 bg-gold/20 rounded-full blur-3xl" aria-hidden />
-      <div className="relative container-page py-20 md:py-28">
-        <motion.div
-          className="max-w-3xl"
-          variants={fadeLeft} initial="hidden" animate="show"
-        >
-          <div className="eyebrow-cream mb-3">Our Programs</div>
-          <h1 className="h-display text-balance mb-6">
-            Choose your <span className="italic text-gold">path.</span><br />
-            Build your edge.
-          </h1>
-          <p className="text-cream/75 text-lg leading-relaxed text-pretty max-w-2xl">
-            Four structured programs — each built around real institutional logic, not YouTube theory.
-          </p>
-        </motion.div>
+      <div className="relative container-page py-14 md:py-20">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <motion.div
+            className="lg:col-span-7"
+            variants={fadeLeft} initial="hidden" animate="show"
+          >
+            <div className="eyebrow-cream mb-3">Our Programs</div>
+            <h1 className="h-display text-balance mb-6">
+              Choose your <span className="italic text-gold">path.</span><br />
+              Build your edge.
+            </h1>
+            <p className="text-cream/75 text-lg leading-relaxed text-pretty max-w-xl mb-8">
+              Four structured programs — each built around real institutional logic, not YouTube theory.
+            </p>
+            <div className="flex flex-wrap gap-8">
+              {[
+                { number: '4', label: 'Structured Programs' },
+                { number: '500+', label: 'Students Trained' },
+                { number: 'Cohort 12', label: 'Now Enrolling' }
+              ].map(s => (
+                <div key={s.label} className="border-l-2 border-gold/30 pl-4">
+                  <div className="font-display text-lg text-cream">{s.number}</div>
+                  <div className="text-[10px] uppercase tracking-super-wide text-cream/45 mt-0.5">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="lg:col-span-5 grid grid-cols-2 gap-4"
+            variants={stagger} initial="hidden" animate="show"
+          >
+            {PROGRAMS.map(p => {
+              const Icon = ICONS[p.icon];
+              return (
+                <motion.div
+                  key={p.slug}
+                  variants={fadeUp}
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                  className={`rounded-2xl border p-5 backdrop-blur-sm ${
+                    p.accent ? 'bg-gold/10 border-gold/40 shadow-gold-glow' : 'bg-white/5 border-white/15'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${
+                    p.accent ? 'bg-gold/20 text-gold' : 'bg-white/10 text-gold/80'
+                  }`}>
+                    <Icon size={18} />
+                  </div>
+                  <div className="font-display text-cream text-base leading-snug mb-1">{p.badge}</div>
+                  <div className="text-cream/45 text-xs">{p.stats[0]}</div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
       </div>
     </section>
 
