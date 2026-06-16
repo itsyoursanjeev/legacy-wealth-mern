@@ -352,9 +352,12 @@ const Home = () => {
 
           {/* Row 2 — Chart + Screener/News */}
           <motion.div
-            className="grid md:grid-cols-2 gap-6"
+            className="relative grid md:grid-cols-2 gap-6"
             variants={stagger} initial="hidden" whileInView="show" viewport={VP}
           >
+            {/* Decorative glow so the glass panel has something to diffuse */}
+            <div className="absolute -right-12 top-1/4 w-72 h-72 bg-gold/15 rounded-full blur-3xl pointer-events-none" aria-hidden />
+
             {/* Left: Advanced Chart */}
             <motion.div variants={fadeUp} className="h-[400px] md:h-[560px] rounded-xl overflow-hidden border border-navy-100 bg-white">
               <TradingViewWidget
@@ -363,20 +366,23 @@ const Home = () => {
               />
             </motion.div>
 
-            {/* Right: Screener (top) + News (bottom) */}
-            <motion.div variants={fadeUp} className="flex flex-col gap-6">
-              <div>
+            {/* Right: Screener (top) + News (bottom) — frosted glass panel */}
+            <motion.div
+              variants={fadeUp}
+              className="relative h-auto md:h-[560px] rounded-2xl border border-white/60 bg-white/40 backdrop-blur-xl shadow-navy-soft p-5 flex flex-col gap-5"
+            >
+              <div className="flex flex-col flex-1 min-h-[260px] md:min-h-0">
                 <h3 className="font-display text-lg text-navy mb-3">Today's Top Performers</h3>
-                <div className="h-[300px] md:h-[260px] rounded-xl overflow-hidden border border-navy-100 bg-white">
+                <div className="flex-1 rounded-xl overflow-hidden border border-white/70 bg-white/60">
                   <TradingViewWidget
                     scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"
                     config={SCREENER_CONFIG}
                   />
                 </div>
               </div>
-              <div>
+              <div className="flex flex-col flex-1 min-h-[280px] md:min-h-0">
                 <h3 className="font-display text-lg text-navy mb-3">Market News</h3>
-                <div className="h-[300px] md:h-[280px] rounded-xl overflow-hidden border border-navy-100 bg-white">
+                <div className="flex-1 rounded-xl overflow-hidden border border-white/70 bg-white/60">
                   <TradingViewWidget
                     scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js"
                     config={TOP_STORIES_CONFIG}
