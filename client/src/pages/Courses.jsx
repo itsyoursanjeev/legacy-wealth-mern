@@ -112,22 +112,22 @@ const ProgramCard = ({ program }) => {
   return (
     <Link
       to={`/programs/${program.slug}`}
-      className={`card-premium relative block overflow-hidden h-full ${
-        program.accent ? 'ring-2 ring-gold/40 shadow-gold-glow' : ''
+      className={`card-premium group relative block overflow-hidden h-full ${
+        program.accent ? 'ring-1 ring-gold/40 shadow-gold-glow' : ''
       }`}
     >
-      <div className="h-[3px] bg-gradient-gold" />
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-gold" />
 
       {program.accent && (
-        <span className="absolute -top-3 right-6 bg-gold text-navy-900 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
+        <div className="absolute -top-3 right-5 bg-gold text-navy-900 text-[10px] font-semibold tracking-super-wide uppercase px-3 py-1 rounded-full shadow-gold-glow">
           Most Popular
-        </span>
+        </div>
       )}
 
       <div className="p-7 flex flex-col h-full">
         <div className="flex items-center justify-between mb-5 mt-1">
           <span className="badge-gold">{program.badge}</span>
-          <div className="w-11 h-11 rounded-lg bg-navy-50 text-navy flex items-center justify-center">
+          <div className="bg-navy-900 text-gold rounded-xl p-3 flex items-center justify-center">
             <Icon size={20} />
           </div>
         </div>
@@ -137,17 +137,16 @@ const ProgramCard = ({ program }) => {
 
         <div className="flex flex-wrap gap-2 mb-6">
           {program.stats.map(s => (
-            <span key={s} className="badge bg-navy-50 text-navy">{s}</span>
+            <span key={s} className="text-[10px] font-semibold tracking-wider uppercase bg-navy-50 text-navy border border-navy-200 px-3 py-1 rounded-full">
+              {s}
+            </span>
           ))}
         </div>
 
-        <motion.span
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-dark"
-          whileHover={{ x: 6 }}
-          transition={{ duration: 0.18 }}
-        >
-          Explore Program <ArrowRight size={14} />
-        </motion.span>
+        <span className="inline-flex items-center gap-1.5 text-sm text-gold-dark font-semibold">
+          Explore Program
+          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1.5" />
+        </span>
       </div>
     </Link>
   );
