@@ -12,6 +12,8 @@ import Methodology from './pages/Methodology';
 import Contact from './pages/Contact';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
+import Blogs from './pages/Blogs';
+import BlogDetail from './pages/BlogDetail';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -24,6 +26,7 @@ import ManageUsers from './pages/admin/ManageUsers';
 import ManageLeads from './pages/admin/ManageLeads';
 import ManageEnrollments from './pages/admin/ManageEnrollments';
 import ManageLessons from './pages/admin/ManageLessons';
+import ManageBlogs from './pages/admin/ManageBlogs';
 
 function App() {
   return (
@@ -55,6 +58,8 @@ function StandardLayout() {
           <Route path="/contact"      element={<Contact />} />
           <Route path="/courses"      element={<Courses />} />
           <Route path="/courses/:slug" element={<CourseDetail />} />
+          <Route path="/blogs"        element={<Blogs />} />
+          <Route path="/blogs/:slug"  element={<BlogDetail />} />
           <Route path="/login"        element={<Login />} />
           <Route path="/signup"       element={<Signup />} />
 
@@ -79,6 +84,9 @@ function StandardLayout() {
           } />
           <Route path="/admin/enrollments" element={
             <AdminRoute><ManageEnrollments /></AdminRoute>
+          } />
+          <Route path="/admin/blogs" element={
+            <AdminRoute><ManageBlogs /></AdminRoute>
           } />
 
           <Route path="*" element={<NotFound />} />

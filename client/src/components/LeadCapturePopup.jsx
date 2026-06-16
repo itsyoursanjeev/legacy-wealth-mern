@@ -148,7 +148,7 @@ const LeadCapturePopup = () => {
 
           {/* Trust signals */}
           <div className="flex flex-wrap gap-x-5 gap-y-1 mt-3">
-            {['500+ Students Trained', 'SEBI-Compliant Curriculum', 'Free Callback in 24 hrs'].map(t => (
+            {['500+ Students Trained', 'Practical, Real-Market Curriculum', 'Free Callback in 24 hrs'].map(t => (
               <span key={t} className="flex items-center gap-1 text-xs text-gold/70">
                 <span className="w-1 h-1 rounded-full bg-gold/50 inline-block" /> {t}
               </span>

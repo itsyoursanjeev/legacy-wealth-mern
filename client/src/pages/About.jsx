@@ -126,7 +126,7 @@ const About = () => (
             <span className="flex items-center gap-2"><Check className="text-gold shrink-0" size={16} /> 12+ years active trader</span>
             <span className="flex items-center gap-2"><Check className="text-gold shrink-0" size={16} /> 5,000+ documented trades</span>
             <span className="flex items-center gap-2"><Check className="text-gold shrink-0" size={16} /> 2,400+ students mentored</span>
-            <span className="flex items-center gap-2"><Check className="text-gold shrink-0" size={16} /> SEBI-aligned curriculum</span>
+            <span className="flex items-center gap-2"><Check className="text-gold shrink-0" size={16} /> Practical, real-market curriculum</span>
           </div>
         </motion.div>
       </div>

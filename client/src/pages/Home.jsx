@@ -13,8 +13,6 @@ import { fadeUp, fadeLeft, fadeRight, fadeIn, stagger, scaleIn } from '../utils/
 
 const VP = { once: true, margin: '-80px' };
 
-const MEDIA_MENTIONS = ['Moneycontrol', 'ET Markets', 'CNBC TV18', 'Mint', 'Bloomberg Quint', 'YourStory', 'Inc42', 'Forbes India'];
-
 const PROGRAMS = [
   {
     tag: 'Flagship', title: '90-Day Mentorship',
@@ -81,7 +79,7 @@ const FAQS = [
   { q: 'How is this different from YouTube content?', a: "Sequencing, accountability, and feedback. YouTube gives you ten thousand fragments. We give you one process — and a mentor reviewing your trades weekly." },
   { q: "What's the time commitment?", a: '6–8 hours per week for 90 days: live sessions, recorded modules, journaling, and trade review. Students who treat it like a part-time MBA get the most out of it.' },
   { q: 'Is there a refund policy?', a: "Yes — a 7-day no-questions-asked refund from your enrollment date. After that, we're committed and so are you." },
-  { q: 'Are you SEBI-registered?', a: "We provide educational content only — not personalised investment advice. If you need RIA-level advisory, we can refer you to a SEBI-registered partner." }
+  { q: 'Is this investment advice?', a: "No. We provide educational content only — not personalised investment or trading advice. Every framework we teach is meant to help you build your own independent judgment, not replace it." }
 ];
 
 const Home = () => {
@@ -229,7 +227,7 @@ const Home = () => {
 
                   {/* Micro trust signals */}
                   <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-navy-100">
-                    {['SEBI-compliant', 'No spam ever', '24 hr response'].map(t => (
+                    {['Educational content only', 'No spam ever', '24 hr response'].map(t => (
                       <span key={t} className="flex items-center gap-1 text-[10px] text-ink/45">
                         <CheckCircle size={9} className="text-green-500 flex-shrink-0" /> {t}
                       </span>
@@ -241,24 +239,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Media ticker */}
-        <div className="relative border-t border-white/8 bg-navy-950/60 backdrop-blur-sm">
-          <div className="container-page py-5 flex items-center gap-6 overflow-hidden">
-            <span className="text-[10px] uppercase tracking-super-wide text-cream/35 whitespace-nowrap shrink-0">As featured in</span>
-            <div className="flex gap-10 mask-fade-r overflow-hidden flex-1">
-              <div className="flex gap-10 animate-ticker shrink-0">
-                {MEDIA_MENTIONS.map((m, i) => (
-                  <span key={i} className="font-display italic text-cream/45 text-base whitespace-nowrap hover:text-gold/60 transition-colors cursor-default">{m}</span>
-                ))}
-              </div>
-              <div className="flex gap-10 animate-ticker shrink-0" aria-hidden>
-                {MEDIA_MENTIONS.map((m, i) => (
-                  <span key={`d-${i}`} className="font-display italic text-cream/45 text-base whitespace-nowrap">{m}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ─────────────────────────── PHILOSOPHY ─────────────────────────── */}
@@ -486,7 +466,7 @@ const Home = () => {
               </p>
               <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-ink/70">
                 <span className="flex items-center gap-2"><Check className="text-gold" size={16} /> 12 yrs trading</span>
-                <span className="flex items-center gap-2"><Check className="text-gold" size={16} /> SEBI-aligned curriculum</span>
+                <span className="flex items-center gap-2"><Check className="text-gold" size={16} /> Practical, real-market curriculum</span>
                 <span className="flex items-center gap-2"><Check className="text-gold" size={16} /> 2,400+ students mentored</span>
               </div>
             </motion.div>

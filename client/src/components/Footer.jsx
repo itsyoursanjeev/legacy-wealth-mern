@@ -113,7 +113,7 @@ const Footer = () => (
     <div className="relative border-t border-cream/8">
       <div className="container-page py-6 text-xs text-cream/45">
         <p className="mb-3 leading-relaxed max-w-4xl">
-          <strong className="text-cream/70">Risk Disclosure:</strong> Investments and trading involve substantial risk of loss. This platform provides educational content only and is not investment advice. Past performance is not indicative of future results. Please consult a SEBI-registered investment advisor before making any financial decisions.
+          <strong className="text-cream/70">Risk Disclosure:</strong> Investments and trading involve substantial risk of loss. This platform provides educational content only and is not investment advice. Past performance is not indicative of future results. Please consult a registered investment advisor before making any financial decisions.
         </p>
         <div className="flex flex-col md:flex-row gap-2 md:gap-6 md:items-center justify-between mt-4 pt-4 border-t border-cream/5">
           <p className="text-cream/40">© {new Date().getFullYear()} Legacy Wealth Institute. All rights reserved.</p>

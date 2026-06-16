@@ -49,9 +49,10 @@ const AdminDashboard = () => {
         )}
 
         {/* Quick actions */}
-        <div className="grid md:grid-cols-4 gap-4 mb-10">
+        <div className="grid md:grid-cols-5 gap-4 mb-10">
           <ActionCard title="Manage Enrollments" desc="Approve, reject, mark payments" to="/admin/enrollments"/>
           <ActionCard title="Manage Courses"     desc="Add, edit, publish programs"    to="/admin/courses"/>
+          <ActionCard title="Manage Blogs"       desc="Write and publish articles"     to="/admin/blogs"/>
           <ActionCard title="Manage Users"       desc="View and control accounts"      to="/admin/users"/>
           <ActionCard title="View Leads"         desc="Track funnel and conversions"   to="/admin/leads"/>
         </div>
