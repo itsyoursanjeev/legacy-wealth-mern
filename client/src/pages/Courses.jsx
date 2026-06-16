@@ -1,164 +1,155 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, BarChart3 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import api from '../api/axios';
-import { fadeUp, stagger, fadeLeft } from '../utils/motion';
+import { LineChart, TrendingUp, Globe, BookOpen, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { fadeUp, fadeLeft, stagger } from '../utils/motion';
 
-const Courses = () => {
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('All');
+const VP = { once: true, margin: '-80px' };
 
-  useEffect(() => {
-    api.get('/courses')
-      .then(({ data }) => setCourses(data.courses))
-      .catch(() => setCourses([]))
-      .finally(() => setLoading(false));
-  }, []);
+const ICONS = { LineChart, TrendingUp, Globe, BookOpen };
 
-  const categories = ['All', 'Mentorship', 'SMC Trading', 'Investing', 'Forex', 'Foundation'];
-  const filtered = filter === 'All' ? courses : courses.filter(c => c.category === filter);
+const PROGRAMS = [
+  {
+    slug: 'smc-trading',
+    icon: 'LineChart',
+    badge: 'SMC Trading',
+    title: 'Smart Money Concepts',
+    desc: 'Decode institutional order flow. Learn Order Blocks, FVGs, liquidity sweeps, and the execution playbook used by professional traders.',
+    stats: ['60–90 Days', 'Intermediate', '8+ Modules'],
+    accent: true
+  },
+  {
+    slug: 'investing',
+    icon: 'TrendingUp',
+    badge: 'Investing',
+    title: 'Long-Term Wealth Building',
+    desc: 'Build a multi-decade portfolio using quality screens, asset allocation models, SIP discipline, and behavioral edge.',
+    stats: ['45–60 Days', 'All Levels', '6+ Modules'],
+    accent: false
+  },
+  {
+    slug: 'forex',
+    icon: 'Globe',
+    badge: 'Forex',
+    title: 'Currency Markets for Indian Traders',
+    desc: 'Currency derivatives, hedging strategies, and exchange-listed forex — the legal, structured way to trade global markets from India.',
+    stats: ['45 Days', 'Beginner–Intermediate', '5+ Modules'],
+    accent: false
+  },
+  {
+    slug: 'foundation',
+    icon: 'BookOpen',
+    badge: 'Foundation',
+    title: 'Financial Foundations',
+    desc: 'The starting point. Markets, instruments, risk basics, and the mental models every trader and investor needs before anything else.',
+    stats: ['30 Days', 'Beginner', '4+ Modules'],
+    accent: false
+  }
+];
 
-  return (
-    <div className="bg-cream min-h-screen">
-
-      {/* Header */}
-      <section className="bg-navy-900 text-cream py-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeLeft} initial="hidden" animate="show">
-            <div className="text-xs uppercase tracking-[0.3em] text-gold mb-3">Programs</div>
-            <h1 className="font-display text-4xl md:text-6xl mb-4">
-              Learn the <span className="italic text-gold">framework</span>.<br />Not just the tricks.
-            </h1>
-            <p className="text-cream/75 max-w-2xl">
-              Every program is built around institutional logic, real risk management, and the discipline to execute under pressure.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Filters */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+const Courses = () => (
+  <div>
+    {/* Hero */}
+    <section className="relative bg-gradient-navy text-cream overflow-hidden">
+      <div className="absolute inset-0 bg-grid opacity-40 mask-fade-b" aria-hidden />
+      <div className="absolute top-20 -right-32 w-96 h-96 bg-gold/20 rounded-full blur-3xl" aria-hidden />
+      <div className="relative container-page py-20 md:py-28">
         <motion.div
-          className="flex flex-wrap gap-2"
-          variants={stagger} initial="hidden" animate="show"
+          className="max-w-3xl"
+          variants={fadeLeft} initial="hidden" animate="show"
         >
-          {categories.map(c => (
-            <motion.button
-              key={c}
-              variants={fadeUp}
-              onClick={() => setFilter(c)}
-              whileTap={{ scale: 0.93 }}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                filter === c
-                  ? 'bg-navy text-cream shadow-sm'
-                  : 'bg-white text-navy border border-navy-200 hover:border-navy'
-              }`}
-            >
-              {c}
-            </motion.button>
+          <div className="eyebrow-cream mb-3">Our Programs</div>
+          <h1 className="h-display text-balance mb-6">
+            Choose your <span className="italic text-gold">path.</span><br />
+            Build your edge.
+          </h1>
+          <p className="text-cream/75 text-lg leading-relaxed text-pretty max-w-2xl">
+            Four structured programs — each built around real institutional logic, not YouTube theory.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+
+    {/* Program cards */}
+    <section className="section bg-cream">
+      <div className="container-page">
+        <motion.div
+          className="grid md:grid-cols-2 gap-6"
+          variants={stagger} initial="hidden" whileInView="show" viewport={VP}
+        >
+          {PROGRAMS.map(p => (
+            <motion.div key={p.slug} variants={fadeUp}>
+              <ProgramCard program={p} />
+            </motion.div>
           ))}
         </motion.div>
       </div>
+    </section>
 
-      {/* Course grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        {loading ? (
-          /* Skeleton loading */
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="card p-6 animate-pulse">
-                <div className="flex justify-between mb-3">
-                  <div className="h-5 w-24 bg-navy-100 rounded-full" />
-                  <div className="h-5 w-20 bg-navy-100 rounded-full" />
-                </div>
-                <div className="h-6 w-3/4 bg-navy-100 rounded mb-2" />
-                <div className="h-4 w-full bg-navy-100 rounded mb-1" />
-                <div className="h-4 w-2/3 bg-navy-100 rounded mb-5" />
-                <div className="flex gap-3 mb-5">
-                  <div className="h-4 w-20 bg-navy-100 rounded" />
-                  <div className="h-4 w-20 bg-navy-100 rounded" />
-                </div>
-                <div className="border-t border-navy-100 pt-4 flex justify-between">
-                  <div className="h-7 w-24 bg-navy-100 rounded" />
-                  <div className="h-5 w-12 bg-navy-100 rounded" />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <motion.div
-            className="text-center py-20 text-ink/60"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          >
-            No programs in this category yet.
+    {/* Trust bar */}
+    <section className="bg-navy text-cream py-14 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid opacity-30" aria-hidden />
+      <motion.div
+        className="relative container-page grid grid-cols-1 sm:grid-cols-3 gap-8 text-center"
+        variants={stagger} initial="hidden" whileInView="show" viewport={VP}
+      >
+        {[
+          { number: '500+', label: 'Students Trained' },
+          { number: '4', label: 'Structured Programs' },
+          { number: 'Cohort 12', label: 'Now Enrolling' }
+        ].map(s => (
+          <motion.div key={s.label} variants={fadeUp}>
+            <div className="font-display text-3xl md:text-4xl text-gold mb-2">{s.number}</div>
+            <div className="text-xs uppercase tracking-super-wide text-cream/60">{s.label}</div>
           </motion.div>
-        ) : (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={filter}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={stagger}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            >
-              {filtered.map(course => (
-                <motion.div key={course._id} variants={fadeUp} layout>
-                  <CourseCard course={course} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        )}
-      </div>
-    </div>
-  );
-};
+        ))}
+      </motion.div>
+    </section>
+  </div>
+);
 
-const CourseCard = ({ course }) => {
-  const effectivePrice = course.discountPrice > 0 ? course.discountPrice : course.price;
-  const hasDiscount = course.discountPrice > 0 && course.discountPrice < course.price;
-
+const ProgramCard = ({ program }) => {
+  const Icon = ICONS[program.icon];
   return (
-    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-      <Link to={`/courses/${course.slug}`} className="card p-6 group flex flex-col h-full">
-        <div className="flex items-start justify-between mb-3">
-          <span className="badge bg-navy-50 text-navy">{course.category}</span>
-          <span className="badge bg-gold/10 text-gold-dark">{course.level}</span>
-        </div>
+    <Link
+      to={`/programs/${program.slug}`}
+      className={`card-premium relative block overflow-hidden h-full ${
+        program.accent ? 'ring-2 ring-gold/40 shadow-gold-glow' : ''
+      }`}
+    >
+      <div className="h-[3px] bg-gradient-gold" />
 
-        <h3 className="font-display text-xl text-navy mb-2 group-hover:text-gold-dark transition-colors">
-          {course.title}
-        </h3>
+      {program.accent && (
+        <span className="absolute -top-3 right-6 bg-gold text-navy-900 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
+          Most Popular
+        </span>
+      )}
 
-        {course.tagline && (
-          <p className="text-sm text-ink/60 italic mb-4">{course.tagline}</p>
-        )}
-
-        <div className="flex flex-wrap gap-3 text-xs text-ink/70 mb-5 mt-auto">
-          <span className="flex items-center gap-1"><Clock size={13} /> {course.durationDays} days</span>
-          <span className="flex items-center gap-1"><BarChart3 size={13} /> {course.modules?.length || 0} modules</span>
-        </div>
-
-        <div className="flex items-end justify-between border-t border-navy-100 pt-4">
-          <div>
-            {hasDiscount && (
-              <div className="text-xs text-ink/40 line-through">₹{course.price.toLocaleString('en-IN')}</div>
-            )}
-            <div className="font-display text-2xl text-navy">₹{effectivePrice.toLocaleString('en-IN')}</div>
+      <div className="p-7 flex flex-col h-full">
+        <div className="flex items-center justify-between mb-5 mt-1">
+          <span className="badge-gold">{program.badge}</span>
+          <div className="w-11 h-11 rounded-lg bg-navy-50 text-navy flex items-center justify-center">
+            <Icon size={20} />
           </div>
-          <motion.span
-            className="text-sm font-medium text-gold-dark"
-            whileHover={{ x: 4 }}
-            transition={{ duration: 0.15 }}
-          >
-            View →
-          </motion.span>
         </div>
-      </Link>
-    </motion.div>
+
+        <h3 className="font-display text-2xl text-navy mb-3">{program.title}</h3>
+        <p className="text-ink/65 text-sm leading-relaxed mb-5 flex-1">{program.desc}</p>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          {program.stats.map(s => (
+            <span key={s} className="badge bg-navy-50 text-navy">{s}</span>
+          ))}
+        </div>
+
+        <motion.span
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-dark"
+          whileHover={{ x: 6 }}
+          transition={{ duration: 0.18 }}
+        >
+          Explore Program <ArrowRight size={14} />
+        </motion.span>
+      </div>
+    </Link>
   );
 };
 

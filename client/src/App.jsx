@@ -12,6 +12,10 @@ import Methodology from './pages/Methodology';
 import Contact from './pages/Contact';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
+import SMCTrading from './pages/programs/SMCTrading';
+import Investing from './pages/programs/Investing';
+import Forex from './pages/programs/Forex';
+import Foundation from './pages/programs/Foundation';
 import Blogs from './pages/Blogs';
 import BlogDetail from './pages/BlogDetail';
 import Login from './pages/Login';
@@ -58,6 +62,10 @@ function StandardLayout() {
           <Route path="/contact"      element={<Contact />} />
           <Route path="/courses"      element={<Courses />} />
           <Route path="/courses/:slug" element={<CourseDetail />} />
+          <Route path="/programs/smc-trading" element={<SMCTrading />} />
+          <Route path="/programs/investing"   element={<Investing />} />
+          <Route path="/programs/forex"       element={<Forex />} />
+          <Route path="/programs/foundation"  element={<Foundation />} />
           <Route path="/blogs"        element={<Blogs />} />
           <Route path="/blogs/:slug"  element={<BlogDetail />} />
           <Route path="/login"        element={<Login />} />
