@@ -87,22 +87,23 @@ const Courses = () => (
             {PROGRAMS.map(p => {
               const Icon = ICONS[p.icon];
               return (
-                <motion.div
-                  key={p.slug}
-                  variants={fadeUp}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
-                  className={`rounded-2xl border p-5 backdrop-blur-sm ${
-                    p.accent ? 'bg-gold/10 border-gold/40 shadow-gold-glow' : 'bg-white/5 border-white/15'
-                  }`}
-                >
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${
-                    p.accent ? 'bg-gold/20 text-gold' : 'bg-white/10 text-gold/80'
-                  }`}>
-                    <Icon size={18} />
-                  </div>
-                  <div className="font-display text-cream text-base leading-snug mb-1">{p.badge}</div>
-                  <div className="text-cream/45 text-xs">{p.stats[0]}</div>
+                <motion.div key={p.slug} variants={fadeUp}>
+                  <Link
+                    to={`/programs/${p.slug}`}
+                    className={`block rounded-2xl border p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 ${
+                      p.accent
+                        ? 'bg-gold/10 border-gold/40 shadow-gold-glow hover:bg-gold/15'
+                        : 'bg-white/5 border-white/15 hover:bg-white/10 hover:border-white/25'
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${
+                      p.accent ? 'bg-gold/20 text-gold' : 'bg-white/10 text-gold/80'
+                    }`}>
+                      <Icon size={18} />
+                    </div>
+                    <div className="font-display text-cream text-base leading-snug mb-1">{p.badge}</div>
+                    <div className="text-cream/45 text-xs">{p.stats[0]}</div>
+                  </Link>
                 </motion.div>
               );
             })}
