@@ -84,9 +84,9 @@ const FAQS = [
 
 const TICKER_TAPE_CONFIG = {
   symbols: [
-    { proName: 'NSE:NIFTY', title: 'NIFTY 50' },
+    { proName: 'NSEINDICES:NIFTY50', title: 'NIFTY 50' },
     { proName: 'BSE:SENSEX', title: 'SENSEX' },
-    { proName: 'NSE:BANKNIFTY', title: 'BANK NIFTY' },
+    { proName: 'NSEINDICES:BANKNIFTY', title: 'BANK NIFTY' },
     { proName: 'FX_IDC:USDINR', title: 'USD/INR' },
     { proName: 'MCX:GOLD1!', title: 'GOLD' },
     { proName: 'MCX:CRUDEOIL1!', title: 'CRUDE OIL' }
@@ -104,15 +104,17 @@ const MARKET_OVERVIEW_CONFIG = {
   showChart: true,
   locale: 'en',
   width: '100%',
-  height: '400',
+  height: 550,
+  isTransparent: false,
   tabs: [
     {
       title: 'Indices',
       symbols: [
-        { s: 'NSE:NIFTY', d: 'NIFTY 50' },
+        { s: 'NSEINDICES:NIFTY50', d: 'NIFTY 50' },
         { s: 'BSE:SENSEX', d: 'SENSEX' },
-        { s: 'NSE:BANKNIFTY', d: 'BANK NIFTY' }
-      ]
+        { s: 'NSEINDICES:BANKNIFTY', d: 'BANK NIFTY' }
+      ],
+      originalTitle: 'Indices'
     },
     {
       title: 'Forex & Commodities',
@@ -120,14 +122,15 @@ const MARKET_OVERVIEW_CONFIG = {
         { s: 'FX_IDC:USDINR', d: 'USD/INR' },
         { s: 'MCX:GOLD1!', d: 'Gold' },
         { s: 'MCX:CRUDEOIL1!', d: 'Crude Oil' }
-      ]
+      ],
+      originalTitle: 'Forex & Commodities'
     }
   ]
 };
 
 const ADVANCED_CHART_CONFIG = {
   autosize: true,
-  symbol: 'NSE:NIFTY',
+  symbol: 'NSEINDICES:NIFTY50',
   interval: 'D',
   timezone: 'Asia/Kolkata',
   theme: 'light',
@@ -351,7 +354,7 @@ const Home = () => {
 
           {/* Row 1 — Market Overview */}
           <motion.div
-            className="card overflow-hidden mb-6"
+            className="card overflow-hidden mb-6 min-h-[550px]"
             variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
           >
             <TradingViewWidget
