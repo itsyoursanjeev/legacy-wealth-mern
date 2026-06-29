@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Mail, Phone, MapPin, Instagram, Send, MessageSquare, Clock, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
@@ -7,9 +8,20 @@ import api from '../api/axios';
 
 const VP = { once: true, margin: '-80px' };
 
+const PROGRAM_TO_INTEREST = {
+  'SMC Trading':  'SMC Course',
+  'Investing':    'Investing',
+  'Forex':        'Forex',
+  'Foundation':   'Foundation',
+};
+
 const Contact = () => {
+  const { state } = useLocation();
+  const appliedProgram = state?.program || null;
+  const defaultInterest = PROGRAM_TO_INTEREST[appliedProgram] || 'Mentorship';
+
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', interest: 'Mentorship', message: ''
+    name: '', email: '', phone: '', interest: defaultInterest, message: ''
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -38,12 +50,18 @@ const Contact = () => {
             className="max-w-3xl"
             variants={fadeLeft} initial="hidden" animate="show"
           >
-            <div className="badge-gold mb-6">Get in touch</div>
+            <div className="badge-gold mb-6">{appliedProgram ? `Applying for ${appliedProgram}` : 'Get in touch'}</div>
             <h1 className="h-display text-balance mb-6">
-              Talk to us before you <span className="italic text-gold">enroll</span>.
+              {appliedProgram
+                ? <><span className="italic text-gold">{appliedProgram}</span> — let's get you enrolled.</>
+                : <>Talk to us before you <span className="italic text-gold">enroll</span>.</>
+              }
             </h1>
             <p className="text-cream/75 text-lg leading-relaxed text-pretty max-w-2xl">
-              We'd rather have a real 30-minute conversation than push you into the wrong program. Send us a note and we'll respond within 24 hours — usually faster.
+              {appliedProgram
+                ? `Fill in your details below and our team will reach out within 24 hours to confirm your seat in the ${appliedProgram} program.`
+                : "We'd rather have a real 30-minute conversation than push you into the wrong program. Send us a note and we'll respond within 24 hours — usually faster."
+              }
             </p>
           </motion.div>
         </div>
@@ -60,8 +78,15 @@ const Contact = () => {
           >
             <div className="bg-white rounded-2xl border border-navy-100 shadow-sm p-8 md:p-10">
               <div className="mb-8">
-                <div className="eyebrow mb-2">Send us a message</div>
-                <h2 className="font-display text-3xl text-navy">We read every message personally.</h2>
+                <div className="eyebrow mb-2">{appliedProgram ? 'Program Application' : 'Send us a message'}</div>
+                <h2 className="font-display text-3xl text-navy">
+                  {appliedProgram ? `Apply for ${appliedProgram}` : 'We read every message personally.'}
+                </h2>
+                {appliedProgram && (
+                  <p className="text-ink/60 text-sm mt-2">
+                    Your interest has been pre-filled. Complete the form and we'll confirm your enrollment within 24 hours.
+                  </p>
+                )}
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -108,6 +133,7 @@ const Contact = () => {
                       <option value="SMC Course">SMC Trading</option>
                       <option value="Investing">Long-term Investing</option>
                       <option value="Forex">Currency / Forex</option>
+                      <option value="Foundation">Financial Foundations</option>
                       <option value="General">Just exploring</option>
                     </select>
                   </Field>
