@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Youtube, Linkedin, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { Instagram, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fadeUp, stagger } from '../utils/motion';
 import LogoMark from './LogoMark';
@@ -75,10 +75,10 @@ const Footer = () => (
           <h4 className="font-display text-gold mb-4 text-xs uppercase tracking-super-wide">Programs</h4>
           <ul className="space-y-2.5 text-sm text-cream/65">
             <li><Link to="/courses" className="hover:text-gold transition-colors">All Programs</Link></li>
-            <li><Link to="/courses" className="hover:text-gold transition-colors">90-Day Mentorship</Link></li>
-            <li><Link to="/courses" className="hover:text-gold transition-colors">SMC Foundations</Link></li>
-            <li><Link to="/courses" className="hover:text-gold transition-colors">Investing</Link></li>
-            <li><Link to="/courses" className="hover:text-gold transition-colors">Forex</Link></li>
+            <li><Link to="/programs/smc-trading" className="hover:text-gold transition-colors">SMC Trading</Link></li>
+            <li><Link to="/programs/investing" className="hover:text-gold transition-colors">Investing</Link></li>
+            <li><Link to="/programs/forex" className="hover:text-gold transition-colors">Forex</Link></li>
+            <li><Link to="/programs/foundation" className="hover:text-gold transition-colors">Foundation</Link></li>
           </ul>
         </motion.div>
 
@@ -98,8 +98,6 @@ const Footer = () => (
           <h4 className="font-display text-gold mb-4 text-xs uppercase tracking-super-wide">Connect</h4>
           <div className="flex gap-2 mb-5">
             <SocialIcon href="https://instagram.com/legacywealth.institute" icon={<Instagram size={17} />} label="Instagram" />
-            <SocialIcon href="#" icon={<Youtube size={17} />} label="YouTube" />
-            <SocialIcon href="#" icon={<Linkedin size={17} />} label="LinkedIn" />
             <SocialIcon href="mailto:hello@legacywealth.in" icon={<Mail size={17} />} label="Email" />
           </div>
           <p className="text-xs text-cream/55 leading-relaxed">
@@ -119,8 +117,8 @@ const Footer = () => (
           <p className="text-cream/40">© {new Date().getFullYear()} Legacy Wealth Institute. All rights reserved.</p>
           <div className="flex gap-5">
             <Link to="/privacy-policy" className="hover:text-gold transition-colors">Privacy Policy</Link>
-            <a href="#" className="hover:text-gold transition-colors">Terms</a>
-            <a href="#" className="hover:text-gold transition-colors">Refund Policy</a>
+            <Link to="/terms" className="hover:text-gold transition-colors">Terms</Link>
+            <Link to="/refund-policy" className="hover:text-gold transition-colors">Refund Policy</Link>
           </div>
         </div>
       </div>

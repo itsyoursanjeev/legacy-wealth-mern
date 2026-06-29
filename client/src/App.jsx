@@ -32,6 +32,8 @@ import ManageEnrollments from './pages/admin/ManageEnrollments';
 import ManageLessons from './pages/admin/ManageLessons';
 import ManageBlogs from './pages/admin/ManageBlogs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
+import RefundPolicy from './pages/RefundPolicy';
 
 function App() {
   return (
@@ -70,6 +72,8 @@ function StandardLayout() {
           <Route path="/blogs"          element={<Blogs />} />
           <Route path="/blogs/:slug"    element={<BlogDetail />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms"          element={<Terms />} />
+          <Route path="/refund-policy"  element={<RefundPolicy />} />
           <Route path="/login"        element={<Login />} />
           <Route path="/signup"       element={<Signup />} />
 
