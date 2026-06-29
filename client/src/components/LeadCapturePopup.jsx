@@ -253,7 +253,7 @@ const LeadCapturePopup = () => {
                 <label className="popup-label">City</label>
                 <input
                   className="popup-field"
-                  placeholder="Mumbai"
+                  placeholder="Ludhiana"
                   value={form.city}
                   onChange={set('city')}
                 />

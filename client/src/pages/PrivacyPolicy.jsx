@@ -192,7 +192,7 @@ const PrivacyPolicy = () => (
             <div className="space-y-1 text-sm">
               <div>Email: <a href={`mailto:${CONTACT_EMAIL}`} className="text-gold-dark hover:text-navy transition-colors">{CONTACT_EMAIL}</a></div>
               <div>Website: <a href={SITE_URL} className="text-gold-dark hover:text-navy transition-colors">{SITE_URL}</a></div>
-              <div>Location: Mumbai, India</div>
+              <div>Location: Focal Point Phase 5, Ludhiana, Punjab, India</div>
             </div>
           </div>
         </Section>

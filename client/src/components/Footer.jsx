@@ -64,7 +64,7 @@ const Footer = () => (
             Premium financial education focused on Smart Money Concepts, institutional trading logic, and long-term wealth building for serious Indian investors.
           </p>
           <div className="space-y-2.5 text-sm text-cream/60">
-            <div className="flex items-center gap-2"><MapPin size={14} className="text-gold flex-shrink-0" /> Mumbai, India</div>
+            <div className="flex items-center gap-2"><MapPin size={14} className="text-gold flex-shrink-0" /> Ludhiana, Punjab, India</div>
             <div className="flex items-center gap-2"><Mail size={14} className="text-gold flex-shrink-0" /> hello@legacywealth.in</div>
             <div className="flex items-center gap-2"><Phone size={14} className="text-gold flex-shrink-0" /> +91 98XXX XXXXX</div>
           </div>

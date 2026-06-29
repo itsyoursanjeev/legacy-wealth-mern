@@ -202,7 +202,7 @@ const Contact = () => {
 
             <motion.div variants={fadeRight}>
               <InfoCard icon={<MapPin />} title="Studio">
-                <span className="text-navy font-medium">Mumbai, Maharashtra</span>
+                <span className="text-navy font-medium">Focal Point Phase 5, Ludhiana, Punjab</span>
                 <p className="text-sm text-ink/60 mt-1">By appointment only</p>
               </InfoCard>
             </motion.div>

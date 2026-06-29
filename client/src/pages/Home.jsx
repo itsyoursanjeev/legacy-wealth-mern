@@ -629,7 +629,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="absolute bottom-6 left-6 right-6 flex justify-between text-cream/55 text-xs uppercase tracking-widest">
-                  <span className="flex items-center gap-1"><MapPin size={10} /> Mumbai</span>
+                  <span className="flex items-center gap-1"><MapPin size={10} /> Ludhiana, Punjab</span>
                   <span>Est. 2019</span>
                 </div>
               </div>
