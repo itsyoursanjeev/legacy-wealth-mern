@@ -118,7 +118,7 @@ const Footer = () => (
         <div className="flex flex-col md:flex-row gap-2 md:gap-6 md:items-center justify-between mt-4 pt-4 border-t border-cream/5">
           <p className="text-cream/40">© {new Date().getFullYear()} Legacy Wealth Institute. All rights reserved.</p>
           <div className="flex gap-5">
-            <a href="#" className="hover:text-gold transition-colors">Privacy</a>
+            <Link to="/privacy-policy" className="hover:text-gold transition-colors">Privacy Policy</Link>
             <a href="#" className="hover:text-gold transition-colors">Terms</a>
             <a href="#" className="hover:text-gold transition-colors">Refund Policy</a>
           </div>

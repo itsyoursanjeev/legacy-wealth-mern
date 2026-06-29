@@ -31,6 +31,7 @@ import ManageLeads from './pages/admin/ManageLeads';
 import ManageEnrollments from './pages/admin/ManageEnrollments';
 import ManageLessons from './pages/admin/ManageLessons';
 import ManageBlogs from './pages/admin/ManageBlogs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   return (
@@ -66,8 +67,9 @@ function StandardLayout() {
           <Route path="/programs/investing"   element={<Investing />} />
           <Route path="/programs/forex"       element={<Forex />} />
           <Route path="/programs/foundation"  element={<Foundation />} />
-          <Route path="/blogs"        element={<Blogs />} />
-          <Route path="/blogs/:slug"  element={<BlogDetail />} />
+          <Route path="/blogs"          element={<Blogs />} />
+          <Route path="/blogs/:slug"    element={<BlogDetail />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/login"        element={<Login />} />
           <Route path="/signup"       element={<Signup />} />
 
