@@ -29,7 +29,7 @@ const Contact = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await api.post('/leads', { ...form, source: 'Contact Page' });
+      await api.post('/leads', { ...form, source: 'Website', sourcePage: '/contact' });
       toast.success("Message received. We'll respond within 24 hours.");
       setForm({ name: '', email: '', phone: '', interest: 'Mentorship', message: '' });
     } catch (err) {

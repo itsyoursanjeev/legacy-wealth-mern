@@ -244,9 +244,9 @@ const Home = () => {
                 <Link to="/courses" className="btn-gold">
                   Explore Programs <ArrowRight size={16} />
                 </Link>
-                <a href="#apply" className="btn-outline border-cream/25 !text-cream hover:!bg-cream hover:!text-navy-900">
+                <Link to="/contact" state={{ program: 'Mentorship' }} className="btn-outline border-cream/25 !text-cream hover:!bg-cream hover:!text-navy-900">
                   Apply for Mentorship
-                </a>
+                </Link>
                 <a href="#masterclass" className="inline-flex items-center gap-2.5 px-4 py-3 rounded-lg text-cream/65 hover:text-gold text-sm font-medium transition-colors">
                   <span className="w-7 h-7 rounded-full border border-cream/20 bg-cream/5 flex items-center justify-center flex-shrink-0">
                     <Play size={10} fill="currentColor" />
@@ -559,7 +559,7 @@ const Home = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <motion.a
-                href="#apply"
+                href="#masterclass"
                 className="inline-flex items-center gap-4 bg-white/5 border border-gold/30 text-cream rounded-xl px-6 py-4 hover:bg-gold/10 hover:border-gold/50 transition-all w-full sm:w-auto"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -761,9 +761,9 @@ const Home = () => {
               </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <a href="#apply" className="btn-outline border-cream/25 !text-cream hover:!bg-cream hover:!text-navy-900">
+              <Link to="/contact" state={{ program: 'Mentorship' }} className="btn-outline border-cream/25 !text-cream hover:!bg-cream hover:!text-navy-900">
                 Apply for Cohort 12
-              </a>
+              </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <a href="#masterclass" className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-gold/30 text-gold hover:bg-gold/10 text-sm font-semibold transition-all">

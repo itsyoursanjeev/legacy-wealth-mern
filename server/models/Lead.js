@@ -50,7 +50,7 @@ const leadSchema = new mongoose.Schema({
     default: 'Website'
   },
   sourcePage:          { type: String, default: '/' },
-  interest:            { type: String, enum: ['Mentorship', 'SMC Course', 'Forex', 'Investing', 'General'], default: 'General' },
+  interest:            { type: String, enum: ['Mentorship', 'SMC Course', 'Forex', 'Investing', 'Foundation', 'General'], default: 'General' },
   message:             { type: String, default: '', maxlength: 1000 },
   brochureDownloaded:  { type: Boolean, default: false },
 
