@@ -1,9 +1,19 @@
 const express = require('express');
+const https = require('https');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+
+const verifyCaptcha = (token) => new Promise((resolve, reject) => {
+  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`;
+  https.get(url, (res) => {
+    let data = '';
+    res.on('data', chunk => data += chunk);
+    res.on('end', () => resolve(JSON.parse(data)));
+  }).on('error', reject);
+});
 
 const router = express.Router();
 
@@ -26,7 +36,19 @@ router.post('/register', [
     throw new Error(errors.array().map(e => e.msg).join(', '));
   }
 
-  const { name, email, password, phone } = req.body;
+  const { name, email, password, phone, captchaToken } = req.body;
+
+  if (process.env.RECAPTCHA_SECRET_KEY) {
+    if (!captchaToken) {
+      res.status(400);
+      throw new Error('Please complete the captcha');
+    }
+    const captchaResult = await verifyCaptcha(captchaToken);
+    if (!captchaResult.success) {
+      res.status(400);
+      throw new Error('Captcha verification failed. Please try again.');
+    }
+  }
 
   const exists = await User.findOne({ email });
   if (exists) {

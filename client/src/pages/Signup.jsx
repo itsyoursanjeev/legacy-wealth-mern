@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+
+const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 const Signup = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const recaptchaRef = useRef(null);
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
+  const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -15,13 +20,20 @@ const Signup = () => {
       toast.error('Password must be at least 8 characters');
       return;
     }
+    if (SITE_KEY && !captchaToken) {
+      toast.error('Please complete the captcha');
+      return;
+    }
     setLoading(true);
     try {
-      await register(form);
+      await register({ ...form, captchaToken });
       toast.success('Account created!');
       navigate('/dashboard');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Signup failed');
+      // Reset captcha on failure so user can retry
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
     } finally {
       setLoading(false);
     }
@@ -84,7 +96,22 @@ const Signup = () => {
             />
           </div>
 
-          <button type="submit" disabled={loading} className="btn-gold w-full !py-3.5">
+          {SITE_KEY && (
+            <div className="flex justify-center pt-1">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={SITE_KEY}
+                onChange={token => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading || (SITE_KEY && !captchaToken)}
+            className="btn-gold w-full !py-3.5 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             {loading ? 'Creating…' : 'Create Account'}
           </button>
 
