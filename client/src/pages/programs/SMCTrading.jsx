@@ -139,7 +139,6 @@ const SMCTrading = () => {
               </motion.div>
             ))}
           </motion.div>
-          <p className="text-center text-ink/45 text-sm mt-8">Modules are fetched live from the database. This is a curriculum preview.</p>
         </div>
       </section>
 
