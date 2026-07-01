@@ -86,9 +86,9 @@ const MARKET_OVERVIEW_CONFIG = {
     {
       title: 'Indices',
       symbols: [
-        { s: 'NSEINDICES:NIFTY50', d: 'NIFTY 50' },
+        { s: 'NSE:NIFTY50', d: 'NIFTY 50' },
         { s: 'BSE:SENSEX', d: 'SENSEX' },
-        { s: 'NSEINDICES:BANKNIFTY', d: 'BANK NIFTY' }
+        { s: 'NSE:BANKNIFTY', d: 'BANK NIFTY' }
       ],
       originalTitle: 'Indices'
     },
