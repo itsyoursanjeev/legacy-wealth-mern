@@ -72,8 +72,8 @@ const Foundation = () => {
               <div className="bg-cream text-ink rounded-xl shadow-2xl border border-gold/30 p-7 lg:sticky lg:top-24">
                 <h3 className="font-display text-xl text-navy mb-4">Enroll in this Program</h3>
                 <div className="mb-6">
-                  <span className="text-ink/40 line-through text-sm mr-2">₹5,999</span>
-                  <span className="font-display text-3xl text-navy">₹2,999</span>
+                  <span className="text-ink/40 line-through text-sm mr-2">₹9,999</span>
+                  <span className="font-display text-3xl text-navy">₹5,999</span>
                 </div>
                 <Link to="/contact" state={{ program: 'Foundation' }} className="btn-gold w-full mb-6">
                   Apply Now <ArrowRight size={16} />

@@ -86,8 +86,8 @@ const SMCTrading = () => {
               <div className="bg-cream text-ink rounded-xl shadow-2xl border border-gold/30 p-7 lg:sticky lg:top-24">
                 <h3 className="font-display text-xl text-navy mb-4">Enroll in this Program</h3>
                 <div className="mb-6">
-                  <span className="text-ink/40 line-through text-sm mr-2">₹75,000</span>
-                  <span className="font-display text-3xl text-navy">₹24,999</span>
+                  <span className="text-ink/40 line-through text-sm mr-2">₹24,999</span>
+                  <span className="font-display text-3xl text-navy">₹21,999</span>
                 </div>
                 <Link to="/contact" state={{ program: 'SMC Trading' }} className="btn-gold w-full mb-6">
                   Apply Now <ArrowRight size={16} />
