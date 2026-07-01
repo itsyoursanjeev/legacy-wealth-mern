@@ -18,7 +18,7 @@ const PROGRAMS = [
     tag: 'Flagship', title: '90-Day Mentorship',
     desc: 'Live cohort. Smart Money Concepts, institutional risk frameworks, and weekly 1-on-1 accountability calls with Sanjeev.',
     level: 'Intermediate → Advanced', modules: '12 modules', hours: '60+ hrs',
-    price: '25,000', originalPrice: '35,000',
+    price: '21,999', originalPrice: '24,999',
     icon: <GraduationCap size={20} />, accent: true
   },
   {
@@ -32,7 +32,7 @@ const PROGRAMS = [
     tag: 'Wealth', title: 'Long-Term Investing',
     desc: 'Build a multi-decade portfolio using quality screens, asset allocation models, and behavioral edge.',
     level: 'All levels', modules: '10 modules', hours: '18 hrs',
-    price: '6,000',
+    price: '7,999', originalPrice: '12,999',
     icon: <BookOpen size={20} />
   }
 ];
