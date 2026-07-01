@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, TrendingUp, Shield, Award, ChevronRight,
-  LineChart, Target, BookOpen, Sparkles, Quote, Check, Plus,
-  GraduationCap, BarChart3, Compass, Star, Play, Users,
-  Trophy, CheckCircle, MapPin, Clock
+  LineChart, Target, Sparkles, Quote, Check, Plus,
+  BarChart3, Compass, Star, Play, Users,
+  Trophy, CheckCircle, MapPin
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -12,30 +12,6 @@ import api from '../api/axios';
 import { fadeUp, fadeLeft, fadeRight, fadeIn, stagger, scaleIn } from '../utils/motion';
 
 const VP = { once: true, margin: '-80px' };
-
-const PROGRAMS = [
-  {
-    tag: 'Flagship', title: '90-Day Mentorship',
-    desc: 'Live cohort. Smart Money Concepts, institutional risk frameworks, and weekly 1-on-1 accountability calls with Sanjeev.',
-    level: 'Intermediate → Advanced', modules: '12 modules', hours: '60+ hrs',
-    price: '21,999', originalPrice: '24,999',
-    icon: <GraduationCap size={20} />, accent: true
-  },
-  {
-    tag: 'Self-paced', title: 'SMC Trading Foundations',
-    desc: 'Order blocks, FVGs, liquidity sweeps, and execution playbooks — structured for self-directed learners.',
-    level: 'Beginner → Intermediate', modules: '8 modules', hours: '24 hrs',
-    price: '8,000',
-    icon: <LineChart size={20} />
-  },
-  {
-    tag: 'Wealth', title: 'Long-Term Investing',
-    desc: 'Build a multi-decade portfolio using quality screens, asset allocation models, and behavioral edge.',
-    level: 'All levels', modules: '10 modules', hours: '18 hrs',
-    price: '7,999', originalPrice: '12,999',
-    icon: <BookOpen size={20} />
-  }
-];
 
 const STUDENT_WINS = [
   {
@@ -508,38 +484,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─────────────────────────── PROGRAMS ─────────────────────────── */}
-      <section className="section bg-cream relative">
-        <div className="absolute inset-0 bg-grid-light opacity-40" aria-hidden />
-        <div className="relative container-page">
-          <motion.div
-            className="flex flex-wrap items-end justify-between gap-6 mb-12"
-            variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
-          >
-            <div>
-              <div className="eyebrow mb-3">Programs</div>
-              <h2 className="h-section text-balance">Built for serious students of the market.</h2>
-            </div>
-            <Link to="/courses" className="btn-ghost">All programs <ArrowRight size={16} /></Link>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-3 gap-6"
-            variants={stagger} initial="hidden" whileInView="show" viewport={VP}
-          >
-            {PROGRAMS.map(p => (
-              <motion.div
-                key={p.title}
-                variants={fadeUp}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              >
-                <ProgramCard {...p} />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* ─────────────────────────── FREE MASTERCLASS ─────────────────────────── */}
       <section id="masterclass" className="bg-navy-900 border-y border-gold/15 py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial-gold opacity-40" aria-hidden />
@@ -837,50 +781,6 @@ const Pillar = ({ n, icon, title, text }) => (
     <h3 className="font-display text-xl text-cream mb-3">{title}</h3>
     <p className="text-cream/55 text-sm leading-relaxed">{text}</p>
     <div className="mt-6 w-8 h-px bg-gold/25 group-hover:w-16 transition-all duration-500" />
-  </div>
-);
-
-const ProgramCard = ({ tag, title, desc, level, modules, hours, price, originalPrice, icon, accent }) => (
-  <div className={`relative card-premium p-7 flex flex-col h-full transition-all duration-300 ${accent ? 'ring-1 ring-gold/35 hover:ring-gold/60 hover:shadow-gold-glow' : 'hover:shadow-navy-soft'}`}>
-    {accent && (
-      <div className="absolute -top-3 left-6">
-        <span className="bg-gold text-navy-900 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
-          Most Popular
-        </span>
-      </div>
-    )}
-
-    <div className="flex items-center justify-between mb-5 mt-2">
-      <span className={`badge ${accent ? 'bg-gold/15 text-gold-dark' : 'bg-navy-50 text-navy'}`}>{tag}</span>
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${accent ? 'bg-gold/10 text-gold' : 'bg-navy-50 text-navy'}`}>
-        {icon}
-      </div>
-    </div>
-
-    <h3 className="font-display text-2xl text-navy mb-3">{title}</h3>
-    <p className="text-ink/65 text-sm leading-relaxed mb-5 flex-1">{desc}</p>
-
-    {/* Metadata */}
-    <div className="flex flex-wrap gap-3 text-[11px] text-ink/50 mb-5">
-      <span className="flex items-center gap-1"><Clock size={11} /> {hours}</span>
-      <span className="flex items-center gap-1"><BookOpen size={11} /> {modules}</span>
-      <span className="flex items-center gap-1"><BarChart3 size={11} /> {level}</span>
-    </div>
-
-    <div className="border-t border-navy-100 pt-4 flex items-end justify-between">
-      <div>
-        {originalPrice && (
-          <div className="text-xs text-ink/35 line-through mb-0.5">₹{originalPrice}</div>
-        )}
-        <div className="font-display text-xl text-navy">₹{price}</div>
-      </div>
-      <Link
-        to="/courses"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-dark hover:text-navy transition-colors"
-      >
-        View <ArrowRight size={13} />
-      </Link>
-    </div>
   </div>
 );
 
