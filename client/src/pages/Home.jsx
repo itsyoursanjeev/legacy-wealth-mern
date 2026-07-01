@@ -40,7 +40,7 @@ const TESTIMONIALS = [
     name: 'Rahul M.', role: 'Software engineer · Bengaluru', rating: 5, initials: 'RM'
   },
   {
-    quote: "What I value isn't the entries — it's the journaling discipline. Sanjeev made me realise my edge wasn't a setup, it was a process. That single shift changed everything about how I trade.",
+    quote: "What I value isn't the entries — it's the journaling discipline. Akshat made me realise my edge wasn't a setup, it was a process. That single shift changed everything about how I trade.",
     name: 'Priya K.', role: 'CA · Mumbai', rating: 5, initials: 'PK'
   },
   {
@@ -425,7 +425,7 @@ const Home = () => {
             {[
               { icon: <TrendingUp />, title: 'Institutional Logic', text: 'Learn how big players move markets — liquidity sweeps, order blocks, fair value gaps. The framework retail never sees.' },
               { icon: <Shield />,     title: 'Risk-First Framework', text: 'Capital preservation comes before profit. Every system we teach starts with one question: how much can you afford to lose?' },
-              { icon: <Award />,      title: 'Live Mentorship',      text: 'Real charts, real cohorts, real accountability. Weekly live sessions where Sanjeev breaks down current market structure.' }
+              { icon: <Award />,      title: 'Live Mentorship',      text: 'Real charts, real cohorts, real accountability. Weekly live sessions where Akshat breaks down current market structure.' }
             ].map(f => (
               <motion.div key={f.title} variants={fadeUp}>
                 <Feature icon={f.icon} title={f.title} text={f.text} />
@@ -566,9 +566,9 @@ const Home = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-32 h-32 rounded-full bg-gold/20 border-2 border-gold/40 flex items-center justify-center mx-auto mb-6 backdrop-blur">
-                      <span className="font-display text-6xl text-gold">SS</span>
+                      <span className="font-display text-6xl text-gold">AJ</span>
                     </div>
-                    <div className="font-display text-3xl text-cream">Sanjeev Sharma</div>
+                    <div className="font-display text-3xl text-cream">Akshat Jain</div>
                     <div className="eyebrow-cream mt-2">Founder &amp; Lead Mentor</div>
                   </div>
                 </div>

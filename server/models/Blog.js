@@ -29,7 +29,7 @@ const blogSchema = new mongoose.Schema({
     enum: ['Market Structure', 'Risk Management', 'Psychology', 'Investing', 'News', 'General'],
     default: 'General'
   },
-  author: { type: String, default: 'Sanjeev Sharma' },
+  author: { type: String, default: 'Akshat Jain' },
   readTime: { type: Number, default: 5, min: 1 },
   isPublished: { type: Boolean, default: false },
   publishedAt: { type: Date },

@@ -46,7 +46,7 @@ const courseSchema = new mongoose.Schema({
   thumbnail: { type: String, default: '' },
   modules: [moduleSchema],
   highlights: [{ type: String }],
-  instructor: { type: String, default: 'Sanjeev Sharma' },
+  instructor: { type: String, default: 'Akshat Jain' },
   isPublished: { type: Boolean, default: false },
   enrollmentCount: { type: Number, default: 0 }
 }, { timestamps: true });

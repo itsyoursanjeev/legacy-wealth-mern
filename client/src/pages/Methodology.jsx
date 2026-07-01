@@ -90,7 +90,7 @@ const Methodology = () => (
             'A weekly review ritual you can sustain for years',
             'A peer cohort of accountability partners',
             'A library of recorded modules to revisit forever',
-            'Direct access to Sanjeev for one year post-cohort'
+            'Direct access to Akshat for one year post-cohort'
           ].map((item, i) => (
             <motion.div
               key={i}
@@ -142,7 +142,7 @@ const Methodology = () => (
         >
           <ShieldCheck className="text-gold shrink-0 mt-1" />
           <div className="text-sm text-cream/80 leading-relaxed">
-            <strong className="text-cream">Week 12 is graduation.</strong> You present your plan, your journal, and your 90-day P&amp;L to the cohort. Sanjeev gives you a written evaluation. That's the moment you stop being a student and start being a trader with a process.
+            <strong className="text-cream">Week 12 is graduation.</strong> You present your plan, your journal, and your 90-day P&amp;L to the cohort. Akshat gives you a written evaluation. That's the moment you stop being a student and start being a trader with a process.
           </div>
         </motion.div>
       </div>

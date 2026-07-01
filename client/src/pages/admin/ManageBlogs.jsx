@@ -6,7 +6,7 @@ import api from '../../api/axios';
 
 const emptyForm = {
   title: '', slug: '', excerpt: '', content: '', coverImage: '',
-  category: 'General', author: 'Sanjeev Sharma', readTime: 5, isPublished: false
+  category: 'General', author: 'Akshat Jain', readTime: 5, isPublished: false
 };
 
 const CATEGORIES = ['Market Structure', 'Risk Management', 'Psychology', 'Investing', 'News', 'General'];

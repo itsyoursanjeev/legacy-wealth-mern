@@ -36,7 +36,7 @@ const PERSONAS = [
 
 const TESTIMONIALS = [
   { quote: "I'd been trading for 5 years on YouTube content and breaking even at best. The 90-day cohort was the first time someone showed me how to actually read structure. Six months later, I'm consistently green — and I know why.", name: 'Rahul M.', role: 'Software Engineer · Bengaluru' },
-  { quote: "What I value isn't the entries — it's the journaling discipline. Sanjeev made me realise my edge wasn't a setup, it was a process. That single shift changed everything.", name: 'Priya K.', role: 'CA · Mumbai' },
+  { quote: "What I value isn't the entries — it's the journaling discipline. Akshat made me realise my edge wasn't a setup, it was a process. That single shift changed everything.", name: 'Priya K.', role: 'CA · Mumbai' },
   { quote: 'No hype. No screenshots. Just a curriculum that respects your intelligence. This is what financial education should look like in India.', name: 'Arjun S.', role: 'Founder · Pune' }
 ];
 
@@ -168,10 +168,10 @@ const SMCTrading = () => {
           </motion.h2>
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <motion.div className="lg:col-span-7" variants={fadeLeft} initial="hidden" whileInView="show" viewport={VP}>
-              <h3 className="font-display text-2xl text-cream mb-1">Sanjeev Sharma</h3>
+              <h3 className="font-display text-2xl text-cream mb-1">Akshat Jain</h3>
               <div className="eyebrow-cream mb-4">Founder, Legacy Wealth Institute</div>
               <p className="text-cream/70 leading-relaxed mb-8 text-pretty">
-                Sanjeev has spent over a decade studying institutional market behaviour and Smart Money Concepts. He built Legacy Wealth Institute to give serious traders in India the framework that professional desks use — structured, accountable, and built for long-term edge.
+                Akshat has spent over a decade studying institutional market behaviour and Smart Money Concepts. He built Legacy Wealth Institute to give serious traders in India the framework that professional desks use — structured, accountable, and built for long-term edge.
               </p>
               <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-cream/70">
                 <span className="flex items-center gap-2"><Check className="text-gold" size={16} /> 10+ Years studying markets</span>
@@ -181,7 +181,7 @@ const SMCTrading = () => {
             </motion.div>
             <motion.div className="lg:col-span-5 flex justify-center" variants={fadeRight} initial="hidden" whileInView="show" viewport={VP}>
               <div className="w-40 h-40 rounded-full bg-gold/15 border-2 border-gold/40 flex items-center justify-center backdrop-blur">
-                <span className="font-display text-6xl text-gold">SS</span>
+                <span className="font-display text-6xl text-gold">AJ</span>
               </div>
             </motion.div>
           </div>
