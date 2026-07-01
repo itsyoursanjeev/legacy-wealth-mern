@@ -28,7 +28,7 @@ const courseSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['SMC Trading', 'Investing', 'Forex', 'Foundation'],
+    enum: ['SMC Trading', 'Investing', 'Forex', 'Foundation', 'Mentorship'],
     default: 'Foundation'
   },
   level: {
