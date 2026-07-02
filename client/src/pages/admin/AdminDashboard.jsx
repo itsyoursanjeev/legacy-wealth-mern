@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, BookOpen, IndianRupee, BadgeCheck, ArrowRight, Clock } from 'lucide-react';
+import {
+  Users, BookOpen, IndianRupee, BadgeCheck, ArrowRight,
+  Clock, FileText, TrendingUp, ArrowLeftRight, Filter
+} from 'lucide-react';
 import api from '../../api/axios';
 
 const AdminDashboard = () => {
@@ -25,61 +28,77 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Stats */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          <StatCard icon={<Users/>}       label="Users"              value={stats?.users || 0}             link="/admin/users"/>
-          <StatCard icon={<BookOpen/>}    label="Courses"            value={stats?.courses || 0}           link="/admin/courses"/>
-          <StatCard icon={<Clock/>}       label="Pending Approvals"  value={stats?.pendingEnrollments || 0} link="/admin/enrollments" highlight={stats?.pendingEnrollments > 0}/>
-          <StatCard icon={<IndianRupee/>} label="Revenue Collected"  value={`₹${(stats?.revenue || 0).toLocaleString('en-IN')}`}/>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+
+        {/* ── Stats Row ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <StatCard label="Users"             value={stats?.users || 0} />
+          <StatCard label="Courses"           value={stats?.courses || 0} />
+          <StatCard label="Pending Approvals" value={stats?.pendingEnrollments || 0} alert={stats?.pendingEnrollments > 0} />
+          <StatCard label="Revenue Collected" value={`₹${(stats?.revenue || 0).toLocaleString('en-IN')}`} gold />
         </div>
 
         {/* Pending approval alert */}
         {stats?.pendingEnrollments > 0 && (
-          <Link to="/admin/enrollments?status=pending" className="flex items-center justify-between bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-8 hover:bg-yellow-100 transition-colors">
+          <Link
+            to="/admin/enrollments?status=pending"
+            className="flex items-center justify-between bg-yellow-50 border border-yellow-200 rounded-xl p-4 hover:bg-yellow-100 transition-colors"
+          >
             <div className="flex items-center gap-3">
-              <Clock className="text-yellow-600" size={20}/>
+              <Clock className="text-yellow-600 shrink-0" size={20} />
               <div>
-                <p className="font-medium text-yellow-800">{stats.pendingEnrollments} enrollment{stats.pendingEnrollments > 1 ? 's' : ''} waiting for your approval</p>
+                <p className="font-medium text-yellow-800">
+                  {stats.pendingEnrollments} enrollment{stats.pendingEnrollments > 1 ? 's' : ''} waiting for your approval
+                </p>
                 <p className="text-xs text-yellow-700">Click to review and approve</p>
               </div>
             </div>
-            <ArrowRight className="text-yellow-600" size={18}/>
+            <ArrowRight className="text-yellow-600 shrink-0" size={18} />
           </Link>
         )}
 
-        {/* Quick actions */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 mb-10">
-          <ActionCard title="Manage Enrollments"  desc="Approve, reject, mark payments"        to="/admin/enrollments"/>
-          <ActionCard title="Manage Courses"      desc="Add, edit, publish programs"           to="/admin/courses"/>
-          <ActionCard title="Manage Blogs"        desc="Write and publish articles"            to="/admin/blogs"/>
-          <ActionCard title="Manage Users"        desc="View and control accounts"             to="/admin/users"/>
-          <ActionCard title="View Leads"          desc="Track funnel and conversions"          to="/admin/leads"/>
-          <ActionCard title="Manage Investments"  desc="Track investor portfolios & returns"   to="/admin/investments"/>
-          <ActionCard title="Manage Withdrawals"  desc="Review & process withdrawal requests"  to="/admin/withdrawals"/>
+        {/* ── Content & Users ── */}
+        <div>
+          <p className="text-xs uppercase tracking-widest text-ink/40 mb-4">Content &amp; Users</p>
+          <div className="grid sm:grid-cols-3 gap-4">
+            <NavCard icon={<Users size={18} />}    iconBg="bg-navy text-gold"       title="Manage Users"   desc="View and control accounts"    to="/admin/users" />
+            <NavCard icon={<BookOpen size={18} />} iconBg="bg-navy text-gold"       title="Manage Courses" desc="Add, edit, publish programs"   to="/admin/courses" />
+            <NavCard icon={<FileText size={18} />} iconBg="bg-navy text-gold"       title="Manage Blogs"   desc="Write and publish articles"    to="/admin/blogs" />
+          </div>
         </div>
 
-        {/* Recent enrollments */}
-        <div className="card p-6">
-          <h2 className="font-display text-xl text-navy mb-4 flex items-center gap-2">
-            <BadgeCheck className="text-gold"/> Recent Enrollments
+        {/* ── Financial & Investments ── */}
+        <div>
+          <p className="text-xs uppercase tracking-widest text-ink/40 mb-4">Financial &amp; Investments</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <NavCard icon={<BadgeCheck size={18} />}     iconBg="bg-gold/15 text-gold-dark"  title="Manage Enrollments"  desc="Approve, reject, mark payments"       to="/admin/enrollments" />
+            <NavCard icon={<TrendingUp size={18} />}     iconBg="bg-gold/15 text-gold-dark"  title="Manage Investments"  desc="Track investor portfolios &amp; returns"   to="/admin/investments" />
+            <NavCard icon={<ArrowLeftRight size={18} />} iconBg="bg-gold/15 text-gold-dark"  title="Manage Withdrawals"  desc="Review &amp; process withdrawal requests" to="/admin/withdrawals" />
+            <NavCard icon={<Filter size={18} />}         iconBg="bg-gold/15 text-gold-dark"  title="View Leads"          desc="Track funnel and conversions"         to="/admin/leads" />
+          </div>
+        </div>
+
+        {/* ── Recent Enrollments ── */}
+        <div className="bg-white border border-navy-100 rounded-2xl p-6">
+          <h2 className="font-display text-xl text-navy mb-5 flex items-center gap-2">
+            <BadgeCheck className="text-gold" size={20} /> Recent Enrollments
           </h2>
           {!stats?.recentEnrollments?.length ? (
             <p className="text-ink/60 text-sm">No enrollments yet.</p>
           ) : (
-            <div className="space-y-3">
+            <div className="divide-y divide-navy-100">
               {stats.recentEnrollments.map(e => (
-                <div key={e._id} className="flex items-center justify-between py-3 border-b border-navy-100 last:border-0">
+                <div key={e._id} className="flex items-center justify-between py-3">
                   <div>
-                    <div className="font-medium text-navy">{e.user?.name || 'Unknown'}</div>
-                    <div className="text-xs text-ink/60">{e.user?.email}</div>
+                    <div className="font-medium text-navy">{e.user?.name || 'Guest'}</div>
+                    <div className="text-xs text-ink/50">{e.user?.email || '—'}</div>
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-navy">{e.course?.title}</div>
                     <div className="flex items-center gap-2 justify-end mt-1">
                       <span className={`badge text-[10px] ${
                         e.enrollmentStatus === 'active'   ? 'bg-green-100 text-green-800' :
-                        e.enrollmentStatus === 'rejected' ? 'bg-red-100 text-red-700' :
+                        e.enrollmentStatus === 'rejected' ? 'bg-red-100 text-red-700'    :
                         'bg-yellow-100 text-yellow-800'
                       }`}>{e.enrollmentStatus}</span>
                       <span className="text-xs text-gold-dark">₹{e.amountPaid.toLocaleString('en-IN')}</span>
@@ -93,31 +112,32 @@ const AdminDashboard = () => {
             View all enrollments →
           </Link>
         </div>
+
       </div>
     </div>
   );
 };
 
-const StatCard = ({ icon, label, value, sub, link, highlight }) => {
-  const content = (
-    <div className={`card p-5 h-full ${highlight ? 'border-yellow-300 bg-yellow-50' : ''}`}>
-      <div className="flex items-start justify-between mb-2">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${highlight ? 'bg-yellow-200 text-yellow-800' : 'bg-navy text-gold'}`}>{icon}</div>
-        {link && <ArrowRight className="text-ink/30" size={16}/>}
-      </div>
-      <div className="text-xs uppercase tracking-widest text-ink/60 mt-3">{label}</div>
-      <div className={`font-display text-2xl ${highlight ? 'text-yellow-800' : 'text-navy'}`}>{value}</div>
-      {sub && <div className="text-xs text-gold-dark mt-1">{sub}</div>}
-    </div>
-  );
-  return link ? <Link to={link} className="block hover:scale-[1.02] transition-transform">{content}</Link> : content;
-};
+// ── Stat Card ────────────────────────────────────────────────────────────────
+const StatCard = ({ label, value, gold, alert }) => (
+  <div className={`bg-white border rounded-xl p-5 ${alert ? 'border-yellow-300 bg-yellow-50' : 'border-navy-100'}`}>
+    <div className={`text-xs uppercase tracking-widest mb-2 ${alert ? 'text-yellow-700' : 'text-ink/50'}`}>{label}</div>
+    <div className={`font-display text-3xl ${gold ? 'text-gold' : alert ? 'text-yellow-800' : 'text-navy'}`}>{value}</div>
+  </div>
+);
 
-const ActionCard = ({ title, desc, to }) => (
-  <Link to={to} className="card p-6 group">
-    <h3 className="font-display text-lg text-navy mb-1 group-hover:text-gold-dark transition-colors">{title}</h3>
-    <p className="text-sm text-ink/60 mb-3">{desc}</p>
-    <span className="text-sm font-medium text-gold-dark">Open →</span>
+// ── Nav Card ─────────────────────────────────────────────────────────────────
+const NavCard = ({ icon, iconBg, title, desc, to }) => (
+  <Link
+    to={to}
+    className="group flex items-start gap-4 bg-white border border-navy-100 rounded-xl p-5 hover:border-navy-300 hover:shadow-md transition-all"
+  >
+    <div className={`rounded-lg p-2 shrink-0 ${iconBg}`}>{icon}</div>
+    <div className="flex flex-col flex-1 min-w-0">
+      <span className="font-semibold text-navy text-sm group-hover:text-gold-dark transition-colors">{title}</span>
+      <span className="text-xs text-ink/55 mt-0.5 leading-snug">{desc}</span>
+      <span className="text-xs font-medium text-gold-dark mt-3">Open →</span>
+    </div>
   </Link>
 );
 
