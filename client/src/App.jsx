@@ -31,6 +31,8 @@ import ManageLeads from './pages/admin/ManageLeads';
 import ManageEnrollments from './pages/admin/ManageEnrollments';
 import ManageLessons from './pages/admin/ManageLessons';
 import ManageBlogs from './pages/admin/ManageBlogs';
+import ManageInvestments from './pages/admin/ManageInvestments';
+import ManageWithdrawals from './pages/admin/ManageWithdrawals';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import RefundPolicy from './pages/RefundPolicy';
@@ -101,6 +103,12 @@ function StandardLayout() {
           } />
           <Route path="/admin/blogs" element={
             <AdminRoute><ManageBlogs /></AdminRoute>
+          } />
+          <Route path="/admin/investments" element={
+            <AdminRoute><ManageInvestments /></AdminRoute>
+          } />
+          <Route path="/admin/withdrawals" element={
+            <AdminRoute><ManageWithdrawals /></AdminRoute>
           } />
 
           <Route path="*" element={<NotFound />} />
