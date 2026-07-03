@@ -38,6 +38,29 @@ router.get('/stats', asyncHandler(async (req, res) => {
   res.json({ success: true, stats: { users, courses, leads, newLeads, revenue, totalEnrollments, pendingEnrollments, activeEnrollments, recentEnrollments } });
 }));
 
+// ─── DASHBOARD STATS (single round-trip) ─────────────────────────────────────
+router.get('/dashboard-stats', asyncHandler(async (req, res) => {
+  const [usersCount, coursesCount, pendingEnrollments, revenueAgg, recentEnrollments] = await Promise.all([
+    User.countDocuments({ role: 'user' }),
+    Course.countDocuments(),
+    Enrollment.countDocuments({ enrollmentStatus: 'pending' }),
+    Enrollment.aggregate([{ $match: { paymentStatus: 'paid' } }, { $group: { _id: null, total: { $sum: '$amountPaid' } } }]),
+    Enrollment.find()
+      .populate('user', 'name email')
+      .populate('course', 'title')
+      .sort({ createdAt: -1 })
+      .limit(5)
+  ]);
+  res.json({
+    success: true,
+    usersCount,
+    coursesCount,
+    pendingEnrollments,
+    totalRevenue: revenueAgg[0]?.total || 0,
+    recentEnrollments
+  });
+}));
+
 // ─── ENROLLMENTS ──────────────────────────────────────────────────────────────
 router.get('/enrollments', asyncHandler(async (req, res) => {
   const { status, search } = req.query;

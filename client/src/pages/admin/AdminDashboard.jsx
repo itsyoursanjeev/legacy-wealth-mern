@@ -11,8 +11,8 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/admin/stats')
-      .then(({ data }) => setStats(data.stats))
+    api.get('/admin/dashboard-stats')
+      .then(({ data }) => setStats(data))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -32,10 +32,10 @@ const AdminDashboard = () => {
 
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Users"             value={stats?.users || 0} />
-          <StatCard label="Courses"           value={stats?.courses || 0} />
+          <StatCard label="Users"             value={stats?.usersCount || 0} />
+          <StatCard label="Courses"           value={stats?.coursesCount || 0} />
           <StatCard label="Pending Approvals" value={stats?.pendingEnrollments || 0} alert={stats?.pendingEnrollments > 0} />
-          <StatCard label="Revenue Collected" value={`₹${(stats?.revenue || 0).toLocaleString('en-IN')}`} gold />
+          <StatCard label="Revenue Collected" value={`₹${(stats?.totalRevenue || 0).toLocaleString('en-IN')}`} gold />
         </div>
 
         {/* Pending approval alert */}
