@@ -172,8 +172,8 @@ const Contact = () => {
           >
             <motion.div variants={fadeRight}>
               <InfoCard icon={<Mail />} title="Email">
-                <a href="mailto:hello@legacywealth.in" className="text-navy hover:text-gold-dark transition-colors font-medium">
-                  hello@legacywealth.in
+                <a href="mailto:akshat@legacywealth.info" className="text-navy hover:text-gold-dark transition-colors font-medium">
+                  akshat@legacywealth.info
                 </a>
                 <p className="text-sm text-ink/60 mt-1">For applications and inquiries</p>
               </InfoCard>
@@ -181,7 +181,7 @@ const Contact = () => {
 
             <motion.div variants={fadeRight}>
               <InfoCard icon={<Phone />} title="Phone">
-                <span className="text-navy font-medium">+91 98XXX XXXXX</span>
+                <span className="text-navy font-medium">+91 6284 364 679</span>
                 <p className="text-sm text-ink/60 mt-1">Mon–Fri, 10 AM – 7 PM IST</p>
               </InfoCard>
             </motion.div>

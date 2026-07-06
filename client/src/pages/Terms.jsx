@@ -4,7 +4,7 @@ import { fadeUp, stagger } from '../utils/motion';
 
 const VP = { once: true, margin: '-60px' };
 const EFFECTIVE_DATE = 'June 29, 2025';
-const CONTACT_EMAIL = 'hello@legacywealth.in';
+const CONTACT_EMAIL = 'akshat@legacywealth.info';
 
 const Section = ({ title, children }) => (
   <motion.div variants={fadeUp} className="mb-10">
