@@ -74,35 +74,6 @@ const TICKER_TAPE_CONFIG = {
   locale: 'en'
 };
 
-const MARKET_OVERVIEW_CONFIG = {
-  colorTheme: 'light',
-  dateRange: '12M',
-  showChart: true,
-  locale: 'en',
-  width: '100%',
-  height: 550,
-  isTransparent: false,
-  tabs: [
-    {
-      title: 'Indices',
-      symbols: [
-        { s: 'NSE:NIFTY50', d: 'NIFTY 50' },
-        { s: 'BSE:SENSEX', d: 'SENSEX' },
-        { s: 'NSE:BANKNIFTY', d: 'BANK NIFTY' }
-      ],
-      originalTitle: 'Indices'
-    },
-    {
-      title: 'Forex & Commodities',
-      symbols: [
-        { s: 'FX_IDC:USDINR', d: 'USD/INR' },
-        { s: 'MCX:GOLD1!', d: 'Gold' },
-        { s: 'MCX:CRUDEOIL1!', d: 'Crude Oil' }
-      ],
-      originalTitle: 'Forex & Commodities'
-    }
-  ]
-};
 
 const ADVANCED_CHART_CONFIG = {
   autosize: true,
@@ -334,8 +305,17 @@ const Home = () => {
             variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}
           >
             <TradingViewWidget
-              scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js"
-              config={MARKET_OVERVIEW_CONFIG}
+              scriptSrc="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"
+              config={{
+                width: "100%",
+                height: 550,
+                defaultColumn: "overview",
+                defaultScreen: "most_capitalized",
+                market: "india",
+                showToolbar: true,
+                colorTheme: "light",
+                locale: "en"
+              }}
             />
           </motion.div>
 

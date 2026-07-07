@@ -24,7 +24,7 @@ const AdminDashboard = () => {
       <section className="bg-navy-900 text-cream py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Admin</div>
-          <h1 className="font-display text-3xl md:text-4xl">Control Centre</h1>
+          <h1 className="font-display text-3xl md:text-4xl">Control Center</h1>
         </div>
       </section>
 
