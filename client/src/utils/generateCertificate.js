@@ -1,111 +1,85 @@
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
-const NAVY = '#0D1B2A';
-const GOLD = '#C9A84C';
-const WHITE = '#FFFFFF';
+const escapeHtml = (str) =>
+  String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
-const letterSpaced = (str) => str.split('').join(' ');
+const buildCertificateHtml = ({ studentName, courseName, completionDate }) => `
+  <div style="width:1122px;height:794px;background:#ffffff;display:flex;font-family:Georgia, serif;position:relative;border:1px solid #e0e0e0;">
 
-export const generateCertificate = ({ studentName, courseName, completionDate }) => {
-  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const centerX = pageWidth / 2;
+    <div style="width:80%;padding:60px 70px;display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <div style="font-size:42px;font-weight:bold;color:#1a3a5c;font-family:Georgia, serif;letter-spacing:2px;">Legacy Wealth</div>
+        <div style="border-top:2px solid #C9A84C;width:80px;margin:8px 0 24px;"></div>
 
-  // Background
-  doc.setFillColor(NAVY);
-  doc.rect(0, 0, pageWidth, pageHeight, 'F');
+        <div style="font-size:14px;color:#888;font-family:Arial, sans-serif;margin-bottom:20px;">${escapeHtml(completionDate)}</div>
 
-  // Gold border, inset 10mm
-  doc.setDrawColor(GOLD);
-  doc.setLineWidth(0.8);
-  doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
+        <div style="font-size:52px;color:#1a1a1a;font-weight:normal;letter-spacing:2px;margin-bottom:10px;font-family:'Playfair Display', Georgia, serif;">${escapeHtml(studentName)}</div>
 
-  // Top center: brand name
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
-  doc.setTextColor(GOLD);
-  doc.text(letterSpaced('LEGACYWEALTH NATION'), centerX, 28, { align: 'center' });
+        <div style="font-size:16px;color:#555;font-family:Arial, sans-serif;margin-bottom:8px;">has successfully completed</div>
 
-  // Gold horizontal line below brand name
-  doc.setDrawColor(GOLD);
-  doc.setLineWidth(0.4);
-  doc.line(60, 34, pageWidth - 60, 34);
+        <div style="font-size:26px;font-weight:bold;color:#1a3a5c;margin-bottom:8px;">${escapeHtml(courseName)}</div>
 
-  // Certificate of Completion
-  doc.setFont('helvetica', 'italic');
-  doc.setFontSize(36);
-  doc.setTextColor(WHITE);
-  doc.text('Certificate of Completion', centerX, 62, { align: 'center' });
+        <div style="font-size:13px;color:#888;font-family:Arial, sans-serif;">A professional trading &amp; investing programme by Legacy Wealth Institute</div>
+      </div>
 
-  // Diamond separator
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(12);
-  doc.setTextColor(GOLD);
-  doc.text('◆', centerX, 72, { align: 'center' });
+      <div style="margin-top:auto;">
+        <div style="border-top:1.5px solid #C9A84C;width:100px;margin-bottom:4px;"></div>
+        <div style="font-size:22px;font-style:italic;color:#1a1a1a;font-family:Georgia, serif;">Akshat</div>
+        <div style="font-size:13px;color:#555;font-family:Arial, sans-serif;">Founder &amp; Lead Mentor</div>
+        <div style="font-size:13px;color:#555;font-family:Arial, sans-serif;">Legacy Wealth Institute</div>
+      </div>
+    </div>
 
-  // This certifies that
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  doc.setTextColor(GOLD);
-  doc.text('This certifies that', centerX, 84, { align: 'center' });
+    <div style="width:20%;background:linear-gradient(180deg, #1a3a5c 0%, #0D1B2A 100%);display:flex;flex-direction:column;align-items:center;padding:40px 20px;gap:20px;position:relative;">
+      <div style="font-size:13px;font-weight:bold;letter-spacing:4px;color:rgba(255,255,255,0.7);font-family:Arial, sans-serif;text-align:center;">
+        COURSE
+        <div style="border-top:1px solid rgba(201,168,76,0.5);width:30px;margin:6px auto;"></div>
+        CERTIFICATE
+      </div>
 
-  // Student name
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(28);
-  doc.setTextColor(WHITE);
-  doc.text(studentName, centerX, 100, { align: 'center' });
+      <div style="position:relative;margin-top:auto;margin-bottom:auto;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;width:150px;height:150px;border-radius:50%;border:1px dashed rgba(201,168,76,0.4);"></div>
+        <div style="width:130px;height:130px;border-radius:50%;border:3px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(201,168,76,0.08);">
+          <div style="font-size:32px;font-weight:bold;color:#C9A84C;font-family:Georgia, serif;">LW</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:2px;text-align:center;margin-top:4px;line-height:1.4;">LEGACY WEALTH<br/>INSTITUTE</div>
+        </div>
+      </div>
 
-  // has successfully completed
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  doc.setTextColor(WHITE);
-  doc.text('has successfully completed', centerX, 112, { align: 'center' });
+      <div style="font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:1px;font-family:Arial, sans-serif;text-align:center;">legacywealth.info</div>
+    </div>
 
-  // Diamond separator
-  doc.setFontSize(10);
-  doc.setTextColor(GOLD);
-  doc.text('◆', centerX, 120, { align: 'center' });
+  </div>
+`;
 
-  // Course name
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(20);
-  doc.setTextColor(GOLD);
-  doc.text(courseName, centerX, 133, { align: 'center' });
+export const generateCertificate = async ({ studentName, courseName, completionDate }) => {
+  const wrapper = document.createElement('div');
+  wrapper.style.position = 'fixed';
+  wrapper.style.top = '0';
+  wrapper.style.left = '-10000px';
+  wrapper.style.zIndex = '-1';
+  wrapper.innerHTML = buildCertificateHtml({ studentName, courseName, completionDate });
+  document.body.appendChild(wrapper);
 
-  // Completion date
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  doc.setTextColor(WHITE);
-  doc.text(completionDate, centerX, 145, { align: 'center' });
+  try {
+    const target = wrapper.firstElementChild;
+    const canvas = await html2canvas(target, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL('image/png');
 
-  // Bottom left: signature
-  const sigX = 45;
-  const sigY = 178;
-  doc.setDrawColor(GOLD);
-  doc.setLineWidth(0.3);
-  doc.line(sigX - 20, sigY - 6, sigX + 20, sigY - 6);
-  doc.setFont('helvetica', 'italic');
-  doc.setFontSize(16);
-  doc.setTextColor(WHITE);
-  doc.text('Akshat', sigX, sigY, { align: 'center' });
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(GOLD);
-  doc.text('Founder, LegacyWealth Nation', sigX, sigY + 6, { align: 'center' });
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
-  // Bottom right: brand footer
-  const footX = pageWidth - 45;
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(12);
-  doc.setTextColor(GOLD);
-  doc.text('LegacyWealth Nation', footX, sigY, { align: 'center' });
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(WHITE);
-  doc.text('legacywealth.info', footX, sigY + 6, { align: 'center' });
-
-  doc.save(`LegacyWealth_Certificate_${courseName.replace(/\s/g, '_')}.pdf`);
+    doc.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+    doc.save(`Certificate_${studentName.replace(/\s/g, '_')}.pdf`);
+  } finally {
+    document.body.removeChild(wrapper);
+  }
 };
 
 export default generateCertificate;
