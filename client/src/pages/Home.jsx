@@ -545,27 +545,34 @@ const Home = () => {
               variants={fadeLeft} initial="hidden" whileInView="show" viewport={VP}
             >
               <div className="relative aspect-[4/5] rounded-2xl bg-gradient-navy overflow-hidden shadow-navy-soft">
-                <div className="absolute inset-0 bg-noise opacity-[0.04] mix-blend-overlay" aria-hidden />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <img
-                      src="/images/akshat.jpg"
-                      alt="Akshat Jain"
-                      style={{
-                        width: '120px',
-                        height: '120px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                        objectPosition: 'center top',
-                        border: '3px solid #C9A84C'
-                      }}
-                      className="mx-auto mb-6"
-                    />
-                    <div className="font-display text-3xl text-cream">Akshat Jain</div>
-                    <div className="eyebrow-cream mt-2">Founder &amp; Lead Mentor</div>
-                  </div>
+                <img
+                  src="/images/akshat.jpg"
+                  alt="Akshat Jain"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center top'
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: '45%',
+                    background: 'linear-gradient(to top, rgba(13,27,42,1) 0%, rgba(13,27,42,0.8) 60%, transparent 100%)'
+                  }}
+                  aria-hidden
+                />
+                <div style={{ position: 'absolute', bottom: '60px', left: 0, right: 0, textAlign: 'center', zIndex: 2 }}>
+                  <div className="font-display text-3xl text-cream">Akshat Jain</div>
+                  <div className="eyebrow-cream mt-2">Founder &amp; Lead Mentor</div>
                 </div>
-                <div className="absolute bottom-6 left-6 right-6 flex justify-between text-cream/55 text-xs uppercase tracking-widest">
+                <div className="absolute bottom-6 left-6 right-6 flex justify-between text-cream/55 text-xs uppercase tracking-widest z-[2]">
                   <span className="flex items-center gap-1"><MapPin size={10} /> Ludhiana, Punjab</span>
                   <span>Est. 2019</span>
                 </div>
