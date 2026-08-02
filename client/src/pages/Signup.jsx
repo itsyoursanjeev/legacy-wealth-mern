@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import api from '../api/axios';
 
 const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
@@ -10,9 +11,24 @@ const Signup = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
   const recaptchaRef = useRef(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', referralCode: '' });
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [referralStatus, setReferralStatus] = useState(null); // { valid, referrerName } | null
+
+  const handleReferralBlur = async () => {
+    const code = form.referralCode.trim();
+    if (!code) {
+      setReferralStatus(null);
+      return;
+    }
+    try {
+      const { data } = await api.get(`/referral/validate/${code}`);
+      setReferralStatus(data.valid ? { valid: true, referrerName: data.referrerName } : { valid: false });
+    } catch {
+      setReferralStatus({ valid: false });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,6 +110,23 @@ const Signup = () => {
               onChange={e => setForm({...form, password: e.target.value})}
               placeholder="Minimum 8 characters"
             />
+          </div>
+
+          <div>
+            <input
+              type="text"
+              className="input-field"
+              value={form.referralCode}
+              onChange={e => setForm({...form, referralCode: e.target.value})}
+              onBlur={handleReferralBlur}
+              placeholder="Referral code (optional)"
+            />
+            {referralStatus?.valid && (
+              <p className="text-xs text-green-600 mt-1.5">✓ Referred by {referralStatus.referrerName} — you'll both get benefits!</p>
+            )}
+            {referralStatus?.valid === false && (
+              <p className="text-xs text-red-600 mt-1.5">✗ Invalid referral code</p>
+            )}
           </div>
 
           {SITE_KEY && (

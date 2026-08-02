@@ -33,8 +33,20 @@ const userSchema = new mongoose.Schema({
     default: 'user'
   },
   avatar: { type: String, default: '' },
-  isActive: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true },
+  referralCode: { type: String, unique: true },
+  referredBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  referralCount: { type: Number, default: 0 },
+  referralDiscountEarned: { type: Number, default: 0 } // total ₹ discount earned
 }, { timestamps: true });
+
+// Auto-generate referral code
+userSchema.pre('save', function (next) {
+  if (!this.referralCode) {
+    this.referralCode = this.name.split(' ')[0].toLowerCase() + Math.random().toString(36).substr(2, 5).toUpperCase();
+  }
+  next();
+});
 
 // Hash password before save
 userSchema.pre('save', async function (next) {

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Calendar, TrendingUp, Clock, CheckCircle, XCircle, AlertCircle, Download, Lock, ChevronDown, ChevronUp } from 'lucide-react';
+import { BookOpen, Calendar, TrendingUp, Clock, CheckCircle, XCircle, AlertCircle, Download, Lock, ChevronDown, ChevronUp, Trophy, Copy, Gift } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import toast from 'react-hot-toast';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { fadeUp, fadeLeft, stagger } from '../utils/motion';
+import generateCertificate from '../utils/generateCertificate';
 
 const statusConfig = {
   active:   { label: 'Active',            cls: 'bg-green-100 text-green-800',  icon: <CheckCircle size={12}/> },
@@ -294,6 +296,67 @@ const InvestmentSection = ({ user }) => {
   );
 };
 
+// ── Referral Section ─────────────────────────────────────────────────────
+const ReferralSection = () => {
+  const [referral, setReferral] = useState(null);
+
+  useEffect(() => {
+    api.get('/referral/my-code')
+      .then(({ data }) => setReferral(data))
+      .catch(() => {});
+  }, []);
+
+  if (!referral) return null;
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(referral.referralCode);
+    toast.success('Referral code copied!');
+  };
+
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+    `Join LegacyWealth Nation and use my referral code ${referral.referralCode} to get a discount! Enroll here: legacywealth.info`
+  )}`;
+
+  return (
+    <motion.div variants={fadeUp} initial="hidden" animate="show" className="mb-10">
+      <div
+        className="rounded-2xl p-6 sm:p-8 border border-gold/20"
+        style={{ backgroundColor: '#0D1B2A' }}
+      >
+        <div className="flex items-center gap-2 mb-5">
+          <Gift className="text-gold" size={22} />
+          <h2 className="font-display text-2xl text-cream">Refer &amp; Earn</h2>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-5">
+          <div className="flex-1 bg-white/5 border border-gold/30 rounded-xl px-5 py-3 font-mono text-lg tracking-widest text-gold text-center sm:text-left">
+            {referral.referralCode}
+          </div>
+          <button
+            onClick={copyCode}
+            className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gold text-navy-900 font-semibold hover:bg-gold-light transition-colors"
+          >
+            <Copy size={16} /> Copy Code
+          </button>
+        </div>
+
+        <p className="text-cream/70 text-sm mb-5">
+          {referral.referralCount} friend{referral.referralCount === 1 ? '' : 's'} referred · ₹{referral.referralDiscountEarned.toLocaleString('en-IN')} discount earned
+        </p>
+
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-gold/40 text-gold hover:bg-gold/10 transition-colors text-sm font-medium"
+        >
+          Share on WhatsApp →
+        </a>
+      </div>
+    </motion.div>
+  );
+};
+
 const Dashboard = () => {
   const { user } = useAuth();
   const [enrollments, setEnrollments] = useState([]);
@@ -328,6 +391,9 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Investment Section */}
         <InvestmentSection user={user} />
+
+        {/* Referral Section */}
+        <ReferralSection />
 
         {/* Stats */}
         <motion.div
@@ -396,7 +462,7 @@ const Dashboard = () => {
           >
             {enrollments.map(e => (
               <motion.div key={e._id} variants={fadeUp}>
-                <EnrollmentCard enrollment={e}/>
+                <EnrollmentCard enrollment={e} user={user}/>
               </motion.div>
             ))}
           </motion.div>
@@ -420,13 +486,22 @@ const StatCard = ({ icon, label, value }) => (
   </motion.div>
 );
 
-const EnrollmentCard = ({ enrollment }) => {
+const EnrollmentCard = ({ enrollment, user }) => {
   const course = enrollment.course;
   if (!course) return null;
 
   const es = statusConfig[enrollment.enrollmentStatus] || statusConfig.pending;
   const ps = paymentConfig[enrollment.paymentStatus] || paymentConfig.pending;
   const isActive = enrollment.enrollmentStatus === 'active';
+  const isCompleted = enrollment.isCompleted === true || enrollment.progressPercent >= 100;
+
+  const handleDownloadCertificate = () => {
+    generateCertificate({
+      studentName: user?.name || '',
+      courseName: course.title,
+      completionDate: new Date(enrollment.completedAt || enrollment.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
+    });
+  };
 
   return (
     <motion.div
@@ -462,6 +537,14 @@ const EnrollmentCard = ({ enrollment }) => {
           <Link to={`/learn/${course.slug}`} className="btn-gold w-full !py-2.5 text-sm">
             Continue Learning →
           </Link>
+          {isCompleted && (
+            <button
+              onClick={handleDownloadCertificate}
+              className="mt-2 w-full !py-2.5 text-sm rounded-lg font-medium flex items-center justify-center gap-2 border border-gold text-gold-dark hover:bg-gold hover:text-navy-900 transition-colors"
+            >
+              🏆 Download Certificate
+            </button>
+          )}
         </>
       ) : enrollment.enrollmentStatus === 'rejected' ? (
         <div className="text-sm text-red-700 bg-red-50 rounded-lg p-3">

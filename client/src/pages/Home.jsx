@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 import { fadeUp, fadeLeft, fadeRight, fadeIn, stagger, scaleIn } from '../utils/motion';
+import CohortCountdown from '../components/CohortCountdown';
 
 const VP = { once: true, margin: '-80px' };
 
@@ -143,6 +144,8 @@ const Home = () => {
 
   return (
     <div className="overflow-hidden">
+
+      <CohortCountdown />
 
       {/* ─────────────────────────────── HERO ─────────────────────────────── */}
       <section className="relative bg-navy-950 text-cream overflow-hidden">

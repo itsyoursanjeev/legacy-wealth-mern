@@ -14,6 +14,7 @@ const leadRoutes = require('./routes/leads');
 const paymentRoutes = require('./routes/payment');
 const blogRoutes = require('./routes/blogs');
 const investmentRoutes = require('./routes/investments');
+const referralRoutes = require('./routes/referral');
 
 const app = express();
 connectDB();
@@ -53,6 +54,7 @@ app.use('/api/leads', leadRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/investments', investmentRoutes);
+app.use('/api/referral', referralRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

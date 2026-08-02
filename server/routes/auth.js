@@ -36,7 +36,7 @@ router.post('/register', [
     throw new Error(errors.array().map(e => e.msg).join(', '));
   }
 
-  const { name, email, password, phone, captchaToken } = req.body;
+  const { name, email, password, phone, captchaToken, referralCode } = req.body;
 
   if (process.env.RECAPTCHA_SECRET_KEY) {
     if (!captchaToken) {
@@ -57,6 +57,18 @@ router.post('/register', [
   }
 
   const user = await User.create({ name, email, password, phone });
+
+  if (referralCode) {
+    const referrer = await User.findOne({ referralCode });
+    if (referrer) {
+      user.referredBy = referrer._id;
+      await user.save();
+
+      referrer.referralCount += 1;
+      referrer.referralDiscountEarned += 500;
+      await referrer.save();
+    }
+  }
 
   res.status(201).json({
     success: true,
