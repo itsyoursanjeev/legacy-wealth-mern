@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import LeadCapturePopup from './components/LeadCapturePopup';
 import ScrollToTop from './components/ScrollToTop';
+import FloatingWhatsApp from './components/FloatingWhatsApp';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -50,6 +51,7 @@ function App() {
         {/* Standard layout */}
         <Route path="/*" element={<StandardLayout />} />
       </Routes>
+      <FloatingWhatsApp />
     </>
   );
 }
