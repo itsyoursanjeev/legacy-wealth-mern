@@ -32,6 +32,15 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user'
   },
+  // Asset-management ("am") admin role, separate from `role` above. `role: 'admin'` keeps
+  // controlling access to the existing Institute admin panel (courses/enrollments/blogs,
+  // unchanged); `amRole` controls the new admin.legacywealth.info app only. Unset = no
+  // access to that app. See middleware/amAuth.js for the effective-role fallback.
+  amRole: {
+    type: String,
+    enum: ['super_admin', 'operations', 'finance', 'compliance', null],
+    default: null
+  },
   avatar: { type: String, default: '' },
   isActive: { type: Boolean, default: true },
   referralCode: { type: String, unique: true },

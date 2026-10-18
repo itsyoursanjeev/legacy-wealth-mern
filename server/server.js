@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const courseRoutes = require('./routes/courses');
 const enrollmentRoutes = require('./routes/enrollments');
 const adminRoutes = require('./routes/admin');
+const amRoutes = require('./routes/am');
 const leadRoutes = require('./routes/leads');
 const paymentRoutes = require('./routes/payment');
 const blogRoutes = require('./routes/blogs');
@@ -22,6 +23,7 @@ connectDB();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://legacy-wealth-mern.vercel.app',
+  'https://admin.legacywealth.info',
   process.env.CLIENT_URL
 ].filter(Boolean);
 
@@ -49,6 +51,13 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
+// IMPORTANT: /api/admin/am must be mounted BEFORE /api/admin. adminRoutes applies its
+// `admin`-only (role === 'admin') gate to every path under its mount, including
+// /api/admin/am/*, since Express treats /api/admin as a prefix match; mounting the more
+// specific am router first lets its own RBAC (middleware/amAuth.js) run instead, so
+// finance/operations/compliance staff (who may have no `admin` role at all) aren't rejected
+// before their permissions are even checked.
+app.use('/api/admin/am', amRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/payment', paymentRoutes);
