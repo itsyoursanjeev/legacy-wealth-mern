@@ -13,7 +13,7 @@ function toCalcTrade(t) {
   return {
     id: t._id.toString(), portfolioId: t.portfolioId.toString(), symbol: t.symbol, instrumentType: t.instrumentType,
     side: t.side, tradeAt: t.tradeAt.toISOString(), quantity: t.quantity, price: t.price, charges: t.charges,
-    status: t.status, reversesId: t.reversesId?.toString(),
+    status: t.status, reference: t.reference, reversesId: t.reversesId?.toString(),
   };
 }
 
