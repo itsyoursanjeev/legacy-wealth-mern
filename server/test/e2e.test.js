@@ -213,10 +213,17 @@ test('ledger: a different authorised user can confirm it', async () => {
   assert.equal(res.body.transaction.confirmedBy, cast.legacyAdmin.name);
 });
 
-test('ledger: dashboard AUM reflects the confirmed contribution', async () => {
+test('ledger: dashboard AUM reflects the confirmed contribution, and the chart series include it in the current month', async () => {
   const res = await request(app).get('/api/admin/am/dashboard').set(auth(tokens.financeUser));
   assert.equal(res.status, 200);
   assert.equal(res.body.dashboard.aum, '1000.00');
+
+  const { capitalSeries, valuationSeries } = res.body.dashboard;
+  assert.equal(capitalSeries.length, 6, 'defaults to a 6-month window');
+  assert.equal(valuationSeries.length, 6);
+  const thisMonth = capitalSeries.at(-1);
+  assert.equal(thisMonth.Contributions, 1000, 'this month\'s bucket must include the confirmed contribution');
+  assert.equal(valuationSeries.at(-1)['Net contributed capital'], 1000, 'cumulative net contributed capital must reach 1000 by this month');
 });
 
 test('ledger: reversal is pending until a second person confirms it, and cannot be double-requested', async () => {

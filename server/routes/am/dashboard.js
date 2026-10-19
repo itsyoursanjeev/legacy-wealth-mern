@@ -8,7 +8,7 @@ const Portfolio = require('../../models/Portfolio');
 const Blog = require('../../models/Blog');
 const { requireAmPermission } = require('../../middleware/amAuth');
 const { summariseLedger, computePositions } = require('../../utils/amCalc');
-const { moneyStr, ZERO } = require('../../utils/amMoney');
+const { D, moneyStr, ZERO } = require('../../utils/amMoney');
 
 const router = express.Router();
 
@@ -20,13 +20,28 @@ function toNews(b) {
   };
 }
 
+/** Builds the last `span` calendar-month buckets (oldest first), keyed 'YYYY-MM' -> label. */
+function monthBuckets(span) {
+  const out = [];
+  for (let k = span - 1; k >= 0; k--) {
+    const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - k);
+    out.push({ key: d.toISOString().slice(0, 7), label: d.toLocaleString('en-IN', { month: 'short' }) });
+  }
+  return out;
+}
+
 /**
- * Scoped-down relative to the demo dashboard: no monthly capital/valuation chart series yet
- * (the new ledger starts empty for every existing investor until staff begin recording real
- * contributions through this app), and market value / unrealised P&L are omitted rather than
- * shown as zero, because no live price feed is connected (see routes/am/prices.js).
+ * Scoped-down relative to the demo dashboard: market value / unrealised P&L are omitted rather
+ * than shown as zero, because no live price feed is connected (see routes/am/prices.js).
+ * `valuationSeries` shows net contributed capital only (no fabricated market valuation) - there
+ * is nothing dishonest to plot against it until a price feed exists.
  */
 router.get('/', requireAmPermission('investors.view'), asyncHandler(async (req, res) => {
+  const { from } = req.query;
+  const span = from
+    ? Math.max(1, Math.min(24, Math.round((Date.now() - new Date(from).getTime()) / (30 * 86400000)) + 1))
+    : 6;
+
   const [totalInvestors, allDocs, confirmedTx, pendingTxCount, pendingTradeCount, pendingDocCount, portfolios, confirmedTrades, recentTrades, recentTx, recentBlogs] = await Promise.all([
     User.countDocuments({ role: 'user' }),
     InvestorDocument.find(),
@@ -56,6 +71,39 @@ router.get('/', requireAmPermission('investors.view'), asyncHandler(async (req, 
   notStartedKyc = Math.max(0, totalInvestors - byInvestor.size);
 
   const ledger = summariseLedger(confirmedTx);
+
+  const buckets = monthBuckets(span);
+  const byMonth = new Map(buckets.map((b) => [b.key, { c: ZERO, w: ZERO }]));
+  for (const t of confirmedTx) {
+    const bucket = byMonth.get(t.date.toISOString().slice(0, 7));
+    if (!bucket) continue;
+    const eff = t.type === 'reversal' ? t.reversesType : t.type;
+    const sign = t.type === 'reversal' ? -1 : 1;
+    const amt = D(t.amount).times(sign);
+    if (eff === 'contribution') bucket.c = bucket.c.plus(amt);
+    if (eff === 'withdrawal') bucket.w = bucket.w.plus(amt);
+  }
+  const capitalSeries = buckets.map((b) => {
+    const v = byMonth.get(b.key);
+    return { label: b.label, Contributions: Number(moneyStr(v.c)), Withdrawals: Number(moneyStr(v.w)) };
+  });
+
+  const sortedTx = [...confirmedTx].sort((a, b) => a.date - b.date);
+  let running = ZERO, txIdx = 0;
+  const valuationSeries = buckets.map((b) => {
+    const monthEnd = new Date(`${b.key}-01T00:00:00.000Z`);
+    monthEnd.setUTCMonth(monthEnd.getUTCMonth() + 1);
+    monthEnd.setUTCMilliseconds(-1); // last instant of b.key's month
+    while (txIdx < sortedTx.length && sortedTx[txIdx].date <= monthEnd) {
+      const t = sortedTx[txIdx];
+      const eff = t.type === 'reversal' ? t.reversesType : t.type;
+      const sign = t.type === 'reversal' ? -1 : 1;
+      if (eff === 'contribution') running = running.plus(D(t.amount).times(sign));
+      if (eff === 'withdrawal') running = running.minus(D(t.amount).times(sign));
+      txIdx += 1;
+    }
+    return { label: b.label, 'Net contributed capital': Number(moneyStr(running)) };
+  });
 
   let realisedPnl = ZERO;
   const unsupportedSymbols = new Set();
@@ -91,6 +139,8 @@ router.get('/', requireAmPermission('investors.view'), asyncHandler(async (req, 
         { label: 'Not started', count: notStartedKyc },
         { label: 'Rejected', count: rejectedKyc },
       ],
+      capitalSeries,
+      valuationSeries,
       recentTrades,
       recentNews: recentBlogs.map(toNews),
       recentTransactions: recentTx,

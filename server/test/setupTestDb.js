@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const { isLoopbackMongoUri } = require('../utils/dbSafety');
 
 /**
  * Isolated, disposable database for integration tests. `mongodb-memory-server` downloads and
@@ -10,12 +11,11 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
  *
  * `assertSafeUri` is a defence-in-depth check, not just documentation: even though
  * `MongoMemoryServer` is trusted to return a local URI, every connection this module makes is
- * verified to be loopback-only before use. If this ever throws, STOP - do not relax the check
- * to make it pass.
+ * verified to be loopback-only before use (same canonical check `config/db.js` uses - see
+ * utils/dbSafety.js). If this ever throws, STOP - do not relax the check to make it pass.
  */
 function assertSafeUri(uri) {
-  const isLoopback = /^mongodb:\/\/(127\.0\.0\.1|localhost|\[::1\])[:/]/i.test(uri);
-  if (!isLoopback) {
+  if (!isLoopbackMongoUri(uri)) {
     throw new Error(
       `Refusing to run tests against a non-loopback MongoDB URI (${uri.replace(/\/\/.*@/, '//<redacted>@')}). ` +
       'Integration tests must only ever run against an in-memory/local database, never production.',
